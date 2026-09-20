@@ -1449,3 +1449,245 @@ body.booking-body {
   padding: 12px 16px;
 }
 
+/* ==========================================================================
+   Responsive Enhancements for Phone & Tablet (Booking Engine)
+   ========================================================================== */
+@media (max-width: 640px) {
+  .booking-header {
+    height: 64px;
+  }
+
+  .booking-header-inner {
+    padding: 0 16px;
+  }
+
+  .booking-wrapper {
+    padding: 16px 14px 40px;
+  }
+
+  .booking-stepper-bar {
+    padding: 10px 14px;
+    margin-bottom: 18px;
+    border-radius: 12px;
+  }
+
+  .stepper-label {
+    font-size: 11px;
+  }
+
+  .step-header {
+    margin-bottom: 18px;
+  }
+
+  .step-header .title-display {
+    font-size: clamp(21px, 5.5vw, 25px);
+    margin: 4px 0 6px;
+  }
+
+  .step-header .desc-lead {
+    font-size: 13.5px;
+    line-height: 1.5;
+  }
+
+  /* Step 1: Services */
+  .service-select-card {
+    padding: 12px;
+    gap: 10px;
+    border-radius: 12px;
+  }
+
+  .service-card-thumb {
+    width: 40px;
+    height: 40px;
+  }
+
+  .service-card-name {
+    font-size: 14px;
+  }
+
+  .service-card-desc {
+    font-size: 12px;
+  }
+
+  /* Step 2: Specialists */
+  .doctors-selection-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .doctor-select-card {
+    padding: 12px;
+    gap: 12px;
+    border-radius: 12px;
+  }
+
+  .doc-select-avatar {
+    width: 52px;
+    height: 52px;
+  }
+
+  .doc-select-name {
+    font-size: 15px;
+  }
+
+  .doc-select-spec {
+    font-size: 12.5px;
+  }
+
+  .doc-select-affil {
+    font-size: 11.5px;
+  }
+
+  /* Step 3: Date Carousel */
+  .date-card-btn {
+    min-width: 72px;
+    padding: 10px 6px;
+    border-radius: 12px;
+  }
+
+  .date-day-number {
+    font-size: 20px;
+  }
+
+  /* Step 4: Time Slots */
+  .slots-session-block {
+    padding: 14px;
+  }
+
+  .slots-pill-grid {
+    grid-template-columns: repeat(auto-fill, minmax(84px, 1fr));
+    gap: 8px;
+  }
+
+  .time-slot-pill {
+    padding: 8px 4px;
+    font-size: 12px;
+  }
+
+  /* Step 5: Patient Details Form */
+  .form-input-text,
+  .form-textarea,
+  .phone-input {
+    font-size: 16px !important; /* Prevents auto-zoom on iOS */
+    padding: 11px 12px;
+  }
+
+  .patient-type-toggle-row {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  /* Step 6: Review Summary */
+  .review-card-container {
+    padding: 16px;
+    border-radius: 12px;
+  }
+
+  .review-details-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  /* Step 7: Demo Payment */
+  .demo-payment-badge-notice {
+    padding: 12px;
+    font-size: 12.5px;
+  }
+
+  .reservation-hold-card {
+    padding: 14px;
+  }
+
+  .hold-timer-content {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .hold-countdown-box {
+    align-self: flex-start;
+  }
+
+  .payment-checkout-card {
+    padding: 16px;
+  }
+
+  .checkout-amount-row {
+    flex-direction: column;
+    gap: 8px;
+    align-items: flex-start;
+  }
+
+  .payment-actions-split {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .payment-actions-split .btn-continue,
+  .payment-actions-split .btn-release-hold {
+    width: 100%;
+    text-align: center;
+    justify-content: center;
+  }
+
+  /* Step 8: Confirmation */
+  .confirmation-success-card {
+    padding: 24px 16px;
+  }
+
+  .confirmation-icon-circle {
+    width: 56px;
+    height: 56px;
+  }
+
+  .confirmed-summary-box {
+    padding: 14px;
+  }
+
+  .confirmed-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+    padding: 8px 0;
+  }
+
+  .confirmation-actions-row {
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+  }
+
+  .confirmation-actions-row .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* Footer Continue Button */
+  .step-footer-actions {
+    margin-top: 20px;
+  }
+
+  .step-footer-actions .btn-continue {
+    width: 100%;
+    justify-content: center;
+    min-height: 46px;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 1023px) {
+  .booking-wrapper {
+    padding: 24px 18px 48px;
+  }
+
+  .slots-pill-grid {
+    grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
+  }
+
+  .payment-checkout-card {
+    padding: 20px;
+  }
+}
+
+

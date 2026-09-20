@@ -1215,3 +1215,51 @@ body.clinical-body {
   fill: currentColor;
   flex-shrink: 0;
 }
+
+/* ==========================================================================
+   Mobile & Tablet Responsive Enhancements (Clinical Workspace)
+   ========================================================================== */
+@media (max-width: 768px) {
+  .clinical-header {
+    height: 60px;
+    padding: 0 14px;
+  }
+  .clinic-brand-logo {
+    width: 32px;
+    height: 32px;
+  }
+  .clinic-brand-title {
+    font-size: 0.9rem;
+  }
+  .clinic-brand-subtitle {
+    display: none;
+  }
+  .clinical-container {
+    padding: 14px;
+  }
+  .patient-banner-card {
+    padding: 16px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+  }
+  .patient-demographics-row {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .clinical-nav-tabs {
+    overflow-x: auto;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 6px;
+  }
+  .odontogram-chart-card {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: 16px 12px;
+  }
+  .arch-grid {
+    min-width: 600px;
+  }
+}
+

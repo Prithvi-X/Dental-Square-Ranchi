@@ -148,4 +148,17 @@
     }
   });
 
+  // ==========================================================================
+  // 7. Search Button Scroll to Services
+  // ==========================================================================
+  const searchBtn = document.querySelector('.header-search-icon');
+  if (searchBtn) {
+    searchBtn.addEventListener('click', function () {
+      const target = document.getElementById('services');
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth' });
+      }
+    });
+  }
+
 })();
