@@ -4,6 +4,30 @@
  * Built with Node.js Native HTTP & SQLite (node:sqlite)
  */
 
+// Ensure node:sqlite is available (required flag in Node.js 22.x LTS)
+if (require.main === module) {
+  try {
+    require('node:sqlite');
+  } catch (err) {
+    if (err.code === 'ERR_UNKNOWN_BUILTIN_MODULE' && !process.env._SQLITE_RESPAWNED) {
+      console.log('[STARTUP] Enabling --experimental-sqlite for Node.js 22 runtime...');
+      const { spawn } = require('child_process');
+      const args = ['--experimental-sqlite', ...process.execArgv, ...process.argv.slice(1)];
+      const child = spawn(process.execPath, args, {
+        stdio: 'inherit',
+        env: { ...process.env, _SQLITE_RESPAWNED: '1' }
+      });
+      process.on('SIGTERM', () => child.kill('SIGTERM'));
+      process.on('SIGINT', () => child.kill('SIGINT'));
+      child.on('exit', (code, signal) => {
+        process.exit(code !== null ? code : (signal ? 1 : 0));
+      });
+      return;
+    }
+    throw err;
+  }
+}
+
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
@@ -2667,10 +2691,10 @@ const server = http.createServer((req, res) => {
   serveStaticFile(req, res, safePath);
 });
 
-server.listen(PORT, () => {
+server.listen(PORT, '0.0.0.0', () => {
   console.log(`\n======================================================`);
   console.log(`  Dental Square Server & Booking Engine Running`);
-  console.log(`  Local URL:   http://localhost:${PORT}`);
+  console.log(`  Local URL:   http://0.0.0.0:${PORT}`);
   console.log(`  Booking URL: http://localhost:${PORT}/book.html`);
   console.log(`  Serving Dir: ${ROOT}`);
   console.log(`======================================================\n`);
