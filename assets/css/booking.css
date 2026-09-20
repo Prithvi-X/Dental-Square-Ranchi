@@ -4,6 +4,36 @@
    Adheres to Phase 0 Design Tokens & Phase 1 Visual Direction
    ========================================================================== */
 
+/* Eliminate default browser faded blue box and tap outline on click */
+*, *::before, *::after {
+  -webkit-tap-highlight-color: transparent !important;
+}
+
+:focus {
+  outline: none;
+}
+
+:focus:not(:focus-visible) {
+  outline: none !important;
+  box-shadow: none;
+}
+
+button:focus,
+a:focus,
+[tabindex]:focus,
+.service-select-card:focus,
+.doctor-select-card:focus,
+.date-card-btn:focus,
+.time-slot-pill:focus,
+.demo-method-card:focus,
+.btn-step-back:focus,
+.btn-continue:focus,
+.btn-release-hold:focus,
+.btn-copy-ref:focus,
+.type-radio-label:focus {
+  outline: none !important;
+}
+
 /* Page Layout */
 body.booking-body {
   background-color: var(--ds-bg-canvas, #F8FAFC);

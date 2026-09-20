@@ -53,6 +53,45 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Eliminate default browser faded blue box and tap outline on click */
+:focus {
+  outline: none;
+}
+
+:focus:not(:focus-visible) {
+  outline: none !important;
+  box-shadow: none;
+}
+
+:focus-visible {
+  outline: 2px solid var(--ds-teal);
+  outline-offset: 2px;
+}
+
+button,
+a,
+input,
+select,
+textarea,
+[tabindex],
+[role="button"] {
+  -webkit-tap-highlight-color: transparent !important;
+}
+
+button:focus,
+a:focus,
+.btn:focus,
+.menu-toggle-btn:focus,
+.header-search-icon:focus,
+.modal-close-btn:focus,
+.phone-badge-pill:focus,
+.treatment-pill:focus,
+.faq-header-btn:focus,
+.mobile-bar-btn:focus {
+  outline: none !important;
 }
 
 html {
@@ -1634,7 +1673,7 @@ h1, h2, h3, h4 {
 }
 
 .mobile-bar-btn.btn-call:active {
-  background: var(--ds-blue-soft);
+  background: #F1F5F9;
 }
 
 .mobile-bar-btn.btn-book {
