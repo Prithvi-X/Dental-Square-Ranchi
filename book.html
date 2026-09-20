@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book an Appointment — Dental Square, Lalpur, Ranchi</title>
+  <meta name="description" content="Book an appointment online with Dr. Anuj Kumar or Dr. Kumari Vandana Chaudhury at Dental Square, Lalpur, Ranchi. Fast, simple, and confirmed instantly.">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="assets/images/favicon.png">
+
+  <!-- Typography Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="assets/css/website.css">
+  <link rel="stylesheet" href="assets/css/booking.css">
+</head>
+<body class="booking-body">
+
+  <!-- Booking Flow Header -->
+  <header class="booking-site-header" role="banner">
+    <div class="container booking-header-inner">
+      <a href="index.html" class="brand-wrap" aria-label="Return to Dental Square Homepage">
+        <img src="assets/images/logo.png" alt="Dental Square Official Logo" class="brand-logo-icon">
+        <div class="brand-text">
+          <span class="brand-name">DENTAL SQUARE</span>
+          <span class="brand-sub">Lalpur, Ranchi</span>
+        </div>
+      </a>
+
+      <div class="booking-header-actions">
+        <button type="button" class="btn btn-outline-sm" id="lookupModalOpenBtn">
+          Find My Booking
+        </button>
+        <a href="index.html" class="link-back-home">
+          &larr; Back to Website
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Booking App Container -->
+  <main class="booking-main-wrapper" id="bookingApp" role="main">
+    <div class="container booking-flow-container">
+
+      <!-- Progress Stepper Indicator (Steps 1 to 6) -->
+      <div class="booking-stepper-bar" id="stepperBar" aria-label="Booking progress">
+        <div class="stepper-top-row">
+          <button type="button" class="btn-step-back" id="stepBackBtn" aria-label="Go back to previous step" style="visibility: hidden;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <line x1="19" y1="12" x2="5" y2="12"></line>
+              <polyline points="12 19 5 12 12 5"></polyline>
+            </svg>
+            <span>Back</span>
+          </button>
+
+          <div class="stepper-label" id="stepperLabel" aria-live="polite">
+            Step 1 of 8
+          </div>
+        </div>
+
+        <div class="stepper-track-bar">
+          <div class="stepper-progress-fill" id="stepperProgressFill" style="width: 12.5%;"></div>
+        </div>
+      </div>
+
+      <!-- Error Announcement Banner -->
+      <div class="booking-alert-banner" id="globalAlertBanner" role="alert" style="display: none;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="12" y1="8" x2="12" y2="12"></line>
+          <line x1="12" y1="16" x2="12.01" y2="16"></line>
+        </svg>
+        <span id="globalAlertText">Please select an option to continue.</span>
+      </div>
+
+      <!-- ====================================================================
+           STEP 1: WHAT DO YOU NEED? (Service Selection)
+           ==================================================================== -->
+      <section class="booking-step-panel active" id="step1Panel" aria-labelledby="step1Title">
+        <div class="step-header">
+          <span class="eyebrow-track">STEP 01 / 08 &middot; SERVICE</span>
+          <h1 class="title-display" id="step1Title">What brings you to Dental Square?</h1>
+          <p class="desc-lead">Select the treatment or consultation you need. If unsure, choose General Consultation or RCT.</p>
+        </div>
+
+        <div class="services-selection-list" id="servicesListContainer" role="radiogroup" aria-label="Select dental service">
+          <div class="booking-loading-state" id="servicesLoadingState">
+            <div class="spinner-ring"></div>
+            <span>Loading verified clinic services...</span>
+          </div>
+        </div>
+
+        <div class="step-footer-actions">
+          <button type="button" class="btn btn-teal btn-continue" id="step1NextBtn" disabled>
+            Continue to Specialist &rarr;
+          </button>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           STEP 2: WHO WOULD YOU LIKE TO SEE? (Doctor Selection)
+           ==================================================================== -->
+      <section class="booking-step-panel" id="step2Panel" aria-labelledby="step2Title">
+        <div class="step-header">
+          <span class="eyebrow-track">STEP 02 / 08 &middot; SPECIALIST</span>
+          <h2 class="title-display" id="step2Title">Select your specialist</h2>
+          <p class="desc-lead">Experienced hands dedicated to gentle, high-precision dental care.</p>
+        </div>
+
+        <div class="doctors-selection-list" id="doctorsListContainer" role="radiogroup" aria-label="Select doctor">
+          <!-- Doctor 1: Dr. Anuj Kumar -->
+          <div class="doctor-select-card" data-doctor-id="doc_anuj_kumar" role="radio" aria-checked="false" tabindex="0">
+            <img src="assets/images/doctor-anuj.png" alt="Dr. Anuj Kumar" class="doc-select-avatar" width="68" height="68">
+            <div class="doc-select-info">
+              <div class="doc-select-name-row">
+                <h3 class="doc-select-name">Dr. Anuj Kumar</h3>
+                <span class="doc-degree-pill mono">BDS, MDS</span>
+              </div>
+              <div class="doc-select-spec">Oral &amp; Maxillofacial Surgeon &middot; Certified Implantologist</div>
+              <div class="doc-select-affil">14 Years Exp &middot; Reg: 28901-A</div>
+            </div>
+            <div class="selection-radio-indicator" aria-hidden="true"></div>
+          </div>
+
+          <!-- Doctor 2: Dr. Kumari Vandana Chaudhury -->
+          <div class="doctor-select-card" data-doctor-id="doc_vandana_choudhary" role="radio" aria-checked="false" tabindex="0">
+            <img src="assets/images/doctor-vandana.png" alt="Dr. Kumari Vandana Chaudhury" class="doc-select-avatar" width="68" height="68">
+            <div class="doc-select-info">
+              <div class="doc-select-name-row">
+                <h3 class="doc-select-name">Dr. Kumari Vandana Chaudhury</h3>
+                <span class="doc-degree-pill mono">BDS-Dental, MDS-Endodontics</span>
+              </div>
+              <div class="doc-select-spec">Dentist &middot; Endodontist &middot; 33 Yrs Exp</div>
+              <div class="doc-select-affil">Dental Square, Lalpur, Ranchi</div>
+            </div>
+            <div class="selection-radio-indicator" aria-hidden="true"></div>
+          </div>
+
+          <!-- Doctor 3: Any Available Specialist -->
+          <div class="doctor-select-card" data-doctor-id="any" role="radio" aria-checked="false" tabindex="0">
+            <div class="doc-select-avatar doc-avatar-any">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                <circle cx="9" cy="7" r="4"></circle>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+              </svg>
+            </div>
+            <div class="doc-select-info">
+              <div class="doc-select-name-row">
+                <h3 class="doc-select-name">Any Available Specialist</h3>
+                <span class="doc-degree-pill mono" style="background: var(--ds-teal-soft); color: var(--ds-teal);">Fastest Slot</span>
+              </div>
+              <div class="doc-select-spec">Either Dr. Anuj Kumar or Dr. Kumari Vandana Chaudhury</div>
+              <div class="doc-select-affil">Assigned automatically based on earliest available time</div>
+            </div>
+            <div class="selection-radio-indicator" aria-hidden="true"></div>
+          </div>
+        </div>
+
+        <div class="step-footer-actions">
+          <button type="button" class="btn btn-teal btn-continue" id="step2NextBtn" disabled>
+            Continue to Date Selection &rarr;
+          </button>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           STEP 3: WHEN WOULD YOU LIKE TO VISIT? (Date Selection)
+           ==================================================================== -->
+      <section class="booking-step-panel" id="step3Panel" aria-labelledby="step3Title">
+        <div class="step-header">
+          <span class="eyebrow-track">STEP 03 / 08 &middot; DATE</span>
+          <h2 class="title-display" id="step3Title">When would you like to visit?</h2>
+          <p class="desc-lead">Select your preferred date. Mon &ndash; Sat: 10 AM &ndash; 8 PM | Sunday: 10 AM &ndash; 2 PM.</p>
+        </div>
+
+        <!-- Date Picker Wheel / Grid -->
+        <div class="dates-carousel-wrapper">
+          <div class="dates-carousel-track" id="datesCarouselTrack" role="radiogroup" aria-label="Select appointment date">
+            <!-- Dynamically populated dates for next 21 days -->
+          </div>
+        </div>
+
+        <div class="selected-date-callout" id="selectedDateCallout" style="display: none;">
+          <div class="date-callout-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+              <line x1="16" y1="2" x2="16" y2="6"></line>
+              <line x1="8" y1="2" x2="8" y2="6"></line>
+              <line x1="3" y1="10" x2="21" y2="10"></line>
+            </svg>
+          </div>
+          <div class="date-callout-text">
+            <span class="date-callout-day" id="calloutDayText">Monday, September 21, 2026</span>
+            <span class="date-callout-hours" id="calloutHoursText">Clinic open: 10:00 AM &ndash; 07:30 PM</span>
+          </div>
+        </div>
+
+        <div class="step-footer-actions">
+          <button type="button" class="btn btn-teal btn-continue" id="step3NextBtn" disabled>
+            Continue to Time Slot &rarr;
+          </button>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           STEP 4: CHOOSE A TIME (Time Slot Selection)
+           ==================================================================== -->
+      <section class="booking-step-panel" id="step4Panel" aria-labelledby="step4Title">
+        <div class="step-header">
+          <span class="eyebrow-track">STEP 04 / 08 &middot; TIME SLOT</span>
+          <h2 class="title-display" id="step4Title">Choose a time</h2>
+          <p class="desc-lead" id="slotsContextLead">Select an available 30-minute consultation slot.</p>
+        </div>
+
+        <div class="slots-container" id="slotsContainer">
+          <div class="booking-loading-state" id="slotsLoadingState">
+            <div class="spinner-ring"></div>
+            <span>Checking live specialist availability...</span>
+          </div>
+
+          <!-- Morning Session -->
+          <div class="slots-session-block" id="morningSessionBlock" style="display: none;">
+            <div class="session-label-row">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <circle cx="12" cy="12" r="5"></circle>
+                <line x1="12" y1="1" x2="12" y2="3"></line>
+                <line x1="12" y1="21" x2="12" y2="23"></line>
+                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                <line x1="1" y1="12" x2="3" y2="12"></line>
+                <line x1="21" y1="12" x2="23" y2="12"></line>
+              </svg>
+              <span>Morning Session (10:00 AM &ndash; 1:30 PM)</span>
+            </div>
+            <div class="slots-pill-grid" id="morningSlotsGrid" role="radiogroup" aria-label="Morning time slots"></div>
+          </div>
+
+          <!-- Evening Session -->
+          <div class="slots-session-block" id="eveningSessionBlock" style="display: none;">
+            <div class="session-label-row">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+              </svg>
+              <span>Evening Session (4:00 PM &ndash; 7:30 PM)</span>
+            </div>
+            <div class="slots-pill-grid" id="eveningSlotsGrid" role="radiogroup" aria-label="Evening time slots"></div>
+          </div>
+
+          <!-- Empty Slots Warning -->
+          <div class="empty-slots-card" id="emptySlotsCard" style="display: none;">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--ds-text-secondary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="8" x2="12" y2="12"></line>
+              <line x1="12" y1="16" x2="12.01" y2="16"></line>
+            </svg>
+            <h3>No slots available on this date</h3>
+            <p>All appointment times on this day are currently booked. Please select a different date.</p>
+            <button type="button" class="btn btn-teal" id="chooseAnotherDateBtn">Choose Another Date</button>
+          </div>
+        </div>
+
+        <div class="step-footer-actions">
+          <button type="button" class="btn btn-teal btn-continue" id="step4NextBtn" disabled>
+            Continue to Patient Details &rarr;
+          </button>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           STEP 5: YOUR DETAILS (Patient Information)
+           ==================================================================== -->
+      <section class="booking-step-panel" id="step5Panel" aria-labelledby="step5Title">
+        <div class="step-header">
+          <span class="eyebrow-track">STEP 05 / 08 &middot; YOUR DETAILS</span>
+          <h2 class="title-display" id="step5Title">Your contact details</h2>
+          <p class="desc-lead">Zero password or registration required. We'll send your booking reference via SMS/WhatsApp.</p>
+        </div>
+
+        <form id="patientDetailsForm" class="patient-form-grid" novalidate>
+          <!-- Full Name -->
+          <div class="form-group-field">
+            <label for="patientNameInput" class="form-field-label">
+              Full Name <span class="required-star">*</span>
+            </label>
+            <input type="text" id="patientNameInput" class="form-input-text" placeholder="e.g. Ramesh Sharma" required autocomplete="name">
+            <span class="form-error-msg" id="nameErrorMsg">Please enter your full name.</span>
+          </div>
+
+          <!-- Mobile Phone -->
+          <div class="form-group-field">
+            <label for="patientPhoneInput" class="form-field-label">
+              Mobile Number <span class="required-star">*</span>
+            </label>
+            <div class="phone-input-wrap">
+              <span class="phone-country-code mono">+91</span>
+              <input type="tel" id="patientPhoneInput" class="form-input-text phone-input" placeholder="98765 43210" required maxlength="12" autocomplete="tel">
+            </div>
+            <span class="form-error-msg" id="phoneErrorMsg">Please enter a valid 10-digit Indian mobile number.</span>
+          </div>
+
+          <!-- Email (Optional) -->
+          <div class="form-group-field">
+            <label for="patientEmailInput" class="form-field-label">
+              Email Address <span class="optional-pill mono">Optional</span>
+            </label>
+            <input type="email" id="patientEmailInput" class="form-input-text" placeholder="name@example.com" autocomplete="email">
+            <span class="form-error-msg" id="emailErrorMsg">Please enter a valid email address.</span>
+          </div>
+
+          <!-- Patient Type -->
+          <div class="form-group-field">
+            <label class="form-field-label">Patient Type</label>
+            <div class="patient-type-toggle-row">
+              <label class="type-radio-label active">
+                <input type="radio" name="patientTypeRadio" value="NEW" checked>
+                <span>First Time Visit</span>
+              </label>
+              <label class="type-radio-label">
+                <input type="radio" name="patientTypeRadio" value="RETURNING">
+                <span>Returning Patient</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Optional Notes -->
+          <div class="form-group-field full-width">
+            <label for="patientNotesInput" class="form-field-label">
+              Notes or Symptoms <span class="optional-pill mono">Optional</span>
+            </label>
+            <textarea id="patientNotesInput" class="form-textarea" rows="2" placeholder="e.g., Lower right tooth sensitivity, routine cleaning, or specific questions..."></textarea>
+          </div>
+        </form>
+
+        <div class="step-footer-actions">
+          <button type="button" class="btn btn-teal btn-continue" id="step5NextBtn">
+            Review Appointment &rarr;
+          </button>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           STEP 6: REVIEW SUMMARY
+           ==================================================================== -->
+      <!-- ====================================================================
+           STEP 6: REVIEW SUMMARY
+           ==================================================================== -->
+      <section class="booking-step-panel" id="step6Panel" aria-labelledby="step6Title">
+        <div class="step-header">
+          <span class="eyebrow-track">STEP 06 / 08 &middot; REVIEW</span>
+          <h2 class="title-display" id="step6Title">Review your appointment</h2>
+          <p class="desc-lead">Please confirm your details below. Your slot will be held for 10 minutes once you proceed to demo payment.</p>
+        </div>
+
+        <div class="review-card-container">
+          <!-- Summary Header -->
+          <div class="review-header-badge-row">
+            <span class="eyebrow-track" style="margin-bottom:0;">APPOINTMENT SUMMARY</span>
+            <span class="review-status-pill mono">Ready for Demo Payment</span>
+          </div>
+
+          <!-- Review Details Grid -->
+          <div class="review-details-grid">
+            <!-- Service item -->
+            <div class="review-detail-item">
+              <span class="review-item-label">Service</span>
+              <div class="review-item-val-row">
+                <img src="assets/images/service-rct-3d.png" alt="Service 3D visual" class="review-service-thumb" id="reviewServiceThumb" width="40" height="40">
+                <div>
+                  <strong class="review-item-title" id="reviewServiceName">Advanced RCT</strong>
+                  <span class="review-item-sub mono" id="reviewServiceDuration">45 min consultation</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Doctor item -->
+            <div class="review-detail-item">
+              <span class="review-item-label">Specialist</span>
+              <div class="review-item-val-row">
+                <img src="assets/images/doctor-anuj.png" alt="Specialist" class="review-doc-avatar" id="reviewDoctorAvatar" width="40" height="40">
+                <div>
+                  <strong class="review-item-title" id="reviewDoctorName">Dr. Anuj Kumar</strong>
+                  <span class="review-item-sub" id="reviewDoctorSpec">Oral &amp; Maxillofacial Surgeon</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Date item -->
+            <div class="review-detail-item">
+              <span class="review-item-label">Date</span>
+              <div class="review-val-text-block">
+                <strong class="review-item-title" id="reviewDateStr">Monday, Sep 21, 2026</strong>
+                <span class="review-item-sub mono" id="reviewDateDay">Monday</span>
+              </div>
+            </div>
+
+            <!-- Time slot item -->
+            <div class="review-detail-item">
+              <span class="review-item-label">Time Slot</span>
+              <div class="review-val-text-block">
+                <strong class="review-item-title highlight-teal mono" id="reviewTimeStr">10:30 AM</strong>
+                <span class="review-item-sub mono">30-min slot</span>
+              </div>
+            </div>
+
+            <!-- Patient item -->
+            <div class="review-detail-item">
+              <span class="review-item-label">Patient Name</span>
+              <div class="review-val-text-block">
+                <strong class="review-item-title" id="reviewPatientName">Ramesh Sharma</strong>
+                <span class="review-item-sub" id="reviewPatientType">First Time Visit</span>
+              </div>
+            </div>
+
+            <!-- Phone item -->
+            <div class="review-detail-item">
+              <span class="review-item-label">Contact Number</span>
+              <div class="review-val-text-block">
+                <strong class="review-item-title mono" id="reviewPatientPhone">+91 98765 43210</strong>
+                <span class="review-item-sub" id="reviewPatientEmail">No email provided</span>
+              </div>
+            </div>
+
+            <!-- Deposit item -->
+            <div class="review-detail-item highlight-deposit-item">
+              <span class="review-item-label">Simulated Slot Deposit</span>
+              <div class="review-val-text-block">
+                <strong class="review-item-title highlight-teal mono" id="reviewDepositAmount">₹500.00</strong>
+                <span class="review-item-sub" style="color: var(--ds-teal); font-weight: 600;">Simulated Fee &middot; Deducted at clinic</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Clinic Location Banner -->
+          <div class="review-location-banner">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--ds-teal)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0;">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+              <circle cx="12" cy="10" r="3"></circle>
+            </svg>
+            <div style="font-size: 13px; color: var(--ds-navy); line-height: 1.4;">
+              <strong>Dental Square</strong> &middot; 1st Floor, Amravati Complex, Circular Road, Lalpur, Ranchi
+            </div>
+          </div>
+        </div>
+
+        <div class="step-footer-actions">
+          <button type="button" class="btn btn-teal btn-continue" id="confirmBookingSubmitBtn">
+            <span class="btn-text">Proceed to Demo Payment &rarr;</span>
+            <div class="spinner-ring-btn" id="confirmSpinner" style="display: none;"></div>
+          </button>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           STEP 7: DEMO PAYMENT (Simulated Checkout & Slot Reservation Hold)
+           ==================================================================== -->
+      <section class="booking-step-panel" id="step7Panel" aria-labelledby="step7Title">
+        <div class="step-header">
+          <span class="eyebrow-track">STEP 07 / 08 &middot; DEMO PAYMENT</span>
+          <h2 class="title-display" id="step7Title">Complete Simulated Deposit</h2>
+          <p class="desc-lead">Your appointment slot is held exclusively for you. Complete this demo payment to confirm your booking.</p>
+        </div>
+
+        <!-- Demo Payment Notice Banner -->
+        <div class="demo-payment-badge-notice">
+          <div class="demo-badge-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="8" x2="12" y2="12"></line>
+              <line x1="12" y1="16" x2="12.01" y2="16"></line>
+            </svg>
+          </div>
+          <div class="demo-badge-text">
+            <strong>Demo Simulation Mode Only</strong> &mdash; This is a simulated checkout demonstration. No real money or bank credentials are charged or connected.
+          </div>
+        </div>
+
+        <!-- Slot Reservation Hold Card with Live Countdown -->
+        <div class="reservation-hold-card">
+          <div class="hold-timer-content">
+            <div class="hold-timer-label-col">
+              <span class="hold-indicator-dot"></span>
+              <span class="hold-title-text">Slot Reserved Temporarily</span>
+            </div>
+            <div class="hold-countdown-box">
+              <span class="countdown-label">Time Remaining:</span>
+              <span class="countdown-digits mono" id="holdCountdownTimer">10:00</span>
+            </div>
+          </div>
+          <div class="hold-details-sub mono" id="holdReservationRefText">
+            Ref: DS-XXXXXX &middot; Held for 10 minutes
+          </div>
+        </div>
+
+        <!-- Checkout Card -->
+        <div class="payment-checkout-card">
+          <div class="checkout-amount-row">
+            <div>
+              <div class="checkout-fee-label">Appointment Slot Deposit</div>
+              <div class="checkout-fee-sub">Simulated demo deposit &middot; Will be adjusted against clinic consultation bill</div>
+            </div>
+            <div class="checkout-fee-amount mono" id="checkoutDepositAmount">₹500.00</div>
+          </div>
+
+          <!-- Simulated Payment Methods -->
+          <div class="form-group-field" style="margin-top: 22px;">
+            <label class="form-field-label">Select Simulated Payment Method</label>
+            <div class="demo-payment-methods-grid">
+              <label class="demo-method-card active" data-method="UPI">
+                <input type="radio" name="demoPayMethod" value="UPI" checked>
+                <div class="method-icon-box">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="2" y="5" width="20" height="14" rx="2"></rect>
+                    <line x1="2" y1="10" x2="22" y2="10"></line>
+                  </svg>
+                </div>
+                <div class="method-info">
+                  <strong class="method-name">Simulated UPI / QR</strong>
+                  <span class="method-desc">Instant mock UPI payment authorization</span>
+                </div>
+              </label>
+
+              <label class="demo-method-card" data-method="CARD">
+                <input type="radio" name="demoPayMethod" value="CARD">
+                <div class="method-icon-box">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+                    <line x1="1" y1="10" x2="23" y2="10"></line>
+                  </svg>
+                </div>
+                <div class="method-info">
+                  <strong class="method-name">Simulated Card</strong>
+                  <span class="method-desc">Test debit or credit card simulation</span>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <!-- Simulated Failure Toggle Switch for Testing -->
+          <div class="demo-fail-toggle-box">
+            <label class="fail-switch-label" for="simulateFailToggle">
+              <input type="checkbox" id="simulateFailToggle">
+              <span class="fail-switch-slider"></span>
+              <span class="fail-switch-text">Simulate Payment Failure (for testing / demo rejection)</span>
+            </label>
+          </div>
+
+          <!-- Payment Error Alert -->
+          <div class="booking-alert-banner" id="paymentErrorBanner" role="alert" style="display: none; margin-top: 16px;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="8" x2="12" y2="12"></line>
+              <line x1="12" y1="16" x2="12.01" y2="16"></line>
+            </svg>
+            <span id="paymentErrorText">Simulated payment failed. Card declined or demo transaction aborted.</span>
+          </div>
+        </div>
+
+        <div class="step-footer-actions payment-actions-split">
+          <button type="button" class="btn btn-outline-sm btn-release-hold" id="cancelAndReleaseHoldBtn">
+            &larr; Cancel &amp; Choose Another Slot
+          </button>
+          <button type="button" class="btn btn-teal btn-continue" id="executeDemoPaymentBtn">
+            <span class="btn-text">Pay ₹500 &amp; Confirm Booking &rarr;</span>
+            <div class="spinner-ring-btn" id="paySpinner" style="display: none;"></div>
+          </button>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           STEP 8: CONFIRMATION (Success State)
+           ==================================================================== -->
+      <section class="booking-step-panel" id="step8Panel" aria-labelledby="step8Title">
+        <div class="confirmation-success-card">
+          <div class="confirmation-icon-circle">
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </div>
+
+          <span class="eyebrow-track" style="color: var(--ds-teal); margin-bottom: 8px;">STEP 08 / 08 &middot; APPOINTMENT CONFIRMED</span>
+          <h2 class="title-display" id="step8Title" style="font-size: 32px; margin-bottom: 8px;">
+            You're all booked!
+          </h2>
+          <p class="desc-lead" style="text-align: center; margin-bottom: 24px;">
+            Your appointment has been successfully confirmed at Dental Square.
+          </p>
+
+          <!-- Booking Reference Card -->
+          <div class="booking-ref-box">
+            <div class="booking-ref-title">Booking Reference</div>
+            <div class="booking-ref-code-row">
+              <span class="booking-ref-code mono" id="confirmedRefCode">DS-XXXXXX</span>
+              <button type="button" class="btn-copy-ref" id="copyRefBtn" aria-label="Copy booking reference">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                </svg>
+                <span id="copyRefText">Copy</span>
+              </button>
+            </div>
+            <p style="font-size: 12px; color: var(--ds-text-secondary); margin-top: 6px;">
+              Keep this reference handy. You can use it along with your mobile number to look up your booking.
+            </p>
+          </div>
+
+          <!-- Confirmed Summary Grid -->
+          <div class="confirmed-summary-box">
+            <div class="confirmed-row">
+              <span class="confirmed-k">Specialist:</span>
+              <strong class="confirmed-v" id="confirmedDocName">Dr. Anuj Kumar</strong>
+            </div>
+            <div class="confirmed-row">
+              <span class="confirmed-k">Service:</span>
+              <span class="confirmed-v" id="confirmedServiceName">Dental Implants</span>
+            </div>
+            <div class="confirmed-row">
+              <span class="confirmed-k">Date &amp; Time:</span>
+              <strong class="confirmed-v highlight-teal mono" id="confirmedDateTime">Sep 21, 2026 at 10:30 AM</strong>
+            </div>
+            <div class="confirmed-row">
+              <span class="confirmed-k">Patient:</span>
+              <span class="confirmed-v" id="confirmedPatientName">Ramesh Sharma</span>
+            </div>
+            <div class="confirmed-row">
+              <span class="confirmed-k">Slot Deposit:</span>
+              <strong class="confirmed-v highlight-teal mono" id="confirmedDepositPaid">₹500.00 (Simulated Demo Paid)</strong>
+            </div>
+            <div class="confirmed-row">
+              <span class="confirmed-k">Payment Ref:</span>
+              <span class="confirmed-v mono" id="confirmedPaymentRef">PAY-DEMO-XXXXXX</span>
+            </div>
+            <div class="confirmed-row">
+              <span class="confirmed-k">Location:</span>
+              <span class="confirmed-v">1st Floor, Amravati Complex, Circular Road, Lalpur, Ranchi</span>
+            </div>
+          </div>
+
+          <!-- Confirmation Action Buttons -->
+          <div class="confirmation-actions-row">
+            <a href="#" class="btn btn-teal" id="downloadIcsBtn">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="16" y1="2" x2="16" y2="6"></line>
+                <line x1="8" y1="2" x2="8" y2="6"></line>
+                <line x1="3" y1="10" x2="21" y2="10"></line>
+              </svg>
+              <span>Add to Calendar (.ics)</span>
+            </a>
+
+            <a href="https://www.google.com/maps/place/Dental+Square/@23.3708656,85.3366863,910m/data=!3m2!1e3!4b1!4m6!3m5!1s0x39f51d89aaaaaaab:0x12b76d40171d710d!8m2!3d23.3708656!4d85.3392612!16s%2Fg%2F11c5fz4s0d?entry=ttu&amp;g_ep=EgoyMDI2MDkxNi4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="btn btn-outline-sm">
+              <span>View Clinic on Google Maps &nearr;</span>
+            </a>
+          </div>
+
+          <div style="margin-top: 24px; text-align: center;">
+            <a href="index.html" class="link-arrow">Return to Dental Square Homepage &rarr;</a>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- ========================================================================
+       Booking Lookup & Verification Modal Dialog
+       ======================================================================== -->
+  <div class="booking-modal-overlay" id="lookupModalOverlay" aria-hidden="true">
+    <div class="lookup-modal-card" role="dialog" aria-labelledby="lookupModalTitle" aria-modal="true">
+      <button type="button" class="modal-close-btn" id="lookupModalCloseBtn" aria-label="Close lookup window">&times;</button>
+      
+      <span class="eyebrow-track">APPOINTMENT LOOKUP</span>
+      <h3 id="lookupModalTitle" class="title-display" style="font-size: 24px; margin-bottom: 8px;">Find Your Booking</h3>
+      <p class="desc-lead" style="font-size: 13.5px; margin-bottom: 20px;">
+        Enter your booking reference and registered mobile number to check status or cancel.
+      </p>
+
+      <form id="lookupForm" novalidate>
+        <div class="form-group-field" style="margin-bottom: 16px;">
+          <label for="lookupRefInput" class="form-field-label">Booking Reference</label>
+          <input type="text" id="lookupRefInput" class="form-input-text mono" placeholder="e.g. DS-A894B2" required maxlength="12" style="text-transform: uppercase;">
+        </div>
+
+        <div class="form-group-field" style="margin-bottom: 20px;">
+          <label for="lookupPhoneInput" class="form-field-label">Registered Mobile Number</label>
+          <div class="phone-input-wrap">
+            <span class="phone-country-code mono">+91</span>
+            <input type="tel" id="lookupPhoneInput" class="form-input-text phone-input" placeholder="98765 43210" required maxlength="12">
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-teal" style="width: 100%; min-height: 46px;">
+          Find Appointment
+        </button>
+      </form>
+
+      <!-- Lookup Result Card -->
+      <div id="lookupResultBox" class="lookup-result-card" style="display: none;">
+        <div class="lookup-status-row">
+          <strong id="lookupResultDoc">Dr. Anuj Kumar</strong>
+          <span class="review-status-pill mono" id="lookupResultStatus">CONFIRMED</span>
+        </div>
+        <div style="font-size: 13px; color: var(--ds-navy); margin-top: 4px;" id="lookupResultService">
+          Dental Implants
+        </div>
+        <div class="mono" style="font-size: 13.5px; font-weight: 700; color: var(--ds-teal); margin-top: 8px;" id="lookupResultDateTime">
+          Sep 21, 2026 at 10:30 AM
+        </div>
+
+        <div class="lookup-actions-row">
+          <button type="button" class="btn btn-danger-sm" id="cancelAppointmentBtn">
+            Cancel Appointment
+          </button>
+        </div>
+      </div>
+
+      <!-- Lookup Error Display -->
+      <div id="lookupErrorAlert" class="booking-alert-banner" style="display: none; margin-top: 16px;">
+        <span id="lookupErrorText">Appointment not found.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="assets/js/booking.js"></script>
+</body>
+</html>

@@ -1,0 +1,1108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dental Square — Design System & UI Showcase (Phase 0)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      /* Brand Color Tokens */
+      --ds-brand-teal: #0D5C58;
+      --ds-brand-navy: #0F2C59;
+      --ds-operatory-blue: #4A6FA5;
+      --ds-teal-soft: #E6F4F1;
+      
+      /* Canvas & Surface Tokens */
+      --ds-surface-canvas: #F9F9FB;
+      --ds-surface-card: #FFFFFF;
+      --ds-border-subtle: #E2E8F0;
+      --ds-border-focus: #0D5C58;
+      
+      /* Typography Tokens */
+      --ds-text-primary: #1E2229;
+      --ds-text-secondary: #64748B;
+      --ds-text-muted: #94A3B8;
+      
+      /* Soft Semantic Status Tokens */
+      --ds-status-success: #0D7A68;
+      --ds-status-success-bg: #E6F5F2;
+      --ds-status-warning: #D97706;
+      --ds-status-warning-bg: #FEF3C7;
+      --ds-status-attention: #EA580C;
+      --ds-status-attention-bg: #FFEDD5;
+      --ds-status-error: #DC2626;
+      --ds-status-error-bg: #FEE2E2;
+      --ds-status-info: #2563EB;
+      --ds-status-info-bg: #EFF6FF;
+
+      /* Spacing Scale (8pt system) */
+      --ds-space-1: 4px;
+      --ds-space-2: 8px;
+      --ds-space-3: 12px;
+      --ds-space-4: 16px;
+      --ds-space-6: 24px;
+      --ds-space-8: 32px;
+      --ds-space-10: 40px;
+      --ds-space-12: 48px;
+      --ds-space-16: 64px;
+
+      /* Radiuses */
+      --ds-radius-sm: 6px;
+      --ds-radius-md: 8px;
+      --ds-radius-lg: 12px;
+      --ds-radius-pill: 9999px;
+
+      /* Shadows */
+      --ds-shadow-card: 0 1px 3px rgba(15, 44, 89, 0.02);
+      --ds-shadow-hover: 0 4px 14px rgba(15, 44, 89, 0.05);
+      --ds-shadow-modal: 0 12px 30px -4px rgba(15, 44, 89, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background-color: var(--ds-surface-canvas);
+      color: var(--ds-text-primary);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .mono {
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* Top Navigation Header */
+    .showcase-header {
+      background: var(--ds-surface-card);
+      border-bottom: 1px solid var(--ds-border-subtle);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      padding: var(--ds-space-3) var(--ds-space-8);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .brand-mark {
+      display: flex;
+      align-items: center;
+      gap: var(--ds-space-3);
+    }
+
+    .brand-emblem {
+      width: 32px;
+      height: 32px;
+      background: var(--ds-brand-navy);
+      color: #fff;
+      border-radius: var(--ds-radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 14px;
+      letter-spacing: -0.5px;
+    }
+
+    .brand-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--ds-brand-navy);
+      letter-spacing: 0.5px;
+    }
+
+    .brand-subtitle {
+      font-size: 12px;
+      color: var(--ds-text-secondary);
+      margin-left: var(--ds-space-2);
+      padding-left: var(--ds-space-2);
+      border-left: 1px solid var(--ds-border-subtle);
+    }
+
+    .nav-pills {
+      display: flex;
+      gap: var(--ds-space-1);
+    }
+
+    .nav-pill {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--ds-text-secondary);
+      text-decoration: none;
+      padding: var(--ds-space-2) var(--ds-space-3);
+      border-radius: var(--ds-radius-md);
+      transition: all 0.15s ease;
+    }
+
+    .nav-pill:hover {
+      background: var(--ds-teal-soft);
+      color: var(--ds-brand-teal);
+    }
+
+    .nav-pill.active {
+      background: var(--ds-brand-teal);
+      color: #fff;
+    }
+
+    /* Container */
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: var(--ds-space-8);
+    }
+
+    /* Section Styles */
+    .section-block {
+      background: var(--ds-surface-card);
+      border: 1px solid var(--ds-border-subtle);
+      border-radius: var(--ds-radius-lg);
+      padding: var(--ds-space-8);
+      margin-bottom: var(--ds-space-8);
+      box-shadow: var(--ds-shadow-card);
+    }
+
+    .section-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--ds-brand-navy);
+      margin-bottom: var(--ds-space-2);
+      display: flex;
+      align-items: center;
+      gap: var(--ds-space-2);
+    }
+
+    .section-desc {
+      font-size: 14px;
+      color: var(--ds-text-secondary);
+      margin-bottom: var(--ds-space-6);
+    }
+
+    /* Color Tokens Grid */
+    .swatch-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: var(--ds-space-4);
+    }
+
+    .swatch-card {
+      border: 1px solid var(--ds-border-subtle);
+      border-radius: var(--ds-radius-md);
+      overflow: hidden;
+      background: #fff;
+    }
+
+    .swatch-color {
+      height: 64px;
+      width: 100%;
+    }
+
+    .swatch-meta {
+      padding: var(--ds-space-3);
+    }
+
+    .swatch-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--ds-text-primary);
+    }
+
+    .swatch-hex {
+      font-size: 12px;
+      color: var(--ds-text-secondary);
+      margin-top: 2px;
+    }
+
+    /* Typography Scale Table */
+    .type-row {
+      display: flex;
+      align-items: baseline;
+      padding: var(--ds-space-4) 0;
+      border-bottom: 1px solid var(--ds-border-subtle);
+    }
+
+    .type-label {
+      width: 200px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--ds-text-secondary);
+    }
+
+    .type-sample {
+      flex: 1;
+      color: var(--ds-text-primary);
+    }
+
+    /* Buttons */
+    .btn-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--ds-space-3);
+      align-items: center;
+      margin-bottom: var(--ds-space-6);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--ds-space-2);
+      height: 40px;
+      padding: 0 var(--ds-space-4);
+      border-radius: var(--ds-radius-md);
+      font-size: 14px;
+      font-weight: 600;
+      font-family: inherit;
+      cursor: pointer;
+      transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+      border: 1px solid transparent;
+      text-decoration: none;
+    }
+
+    .btn:active {
+      transform: scale(0.98);
+    }
+
+    .btn-primary {
+      background: var(--ds-brand-teal);
+      color: #fff;
+    }
+
+    .btn-primary:hover {
+      background: #0B4B48;
+    }
+
+    .btn-secondary {
+      background: #fff;
+      color: var(--ds-text-primary);
+      border-color: var(--ds-border-subtle);
+    }
+
+    .btn-secondary:hover {
+      background: var(--ds-surface-canvas);
+      border-color: #CBD5E1;
+    }
+
+    .btn-navy {
+      background: var(--ds-brand-navy);
+      color: #fff;
+    }
+
+    .btn-navy:hover {
+      background: #0B2245;
+    }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--ds-brand-teal);
+    }
+
+    .btn-ghost:hover {
+      background: var(--ds-teal-soft);
+    }
+
+    .btn-destructive {
+      background: var(--ds-status-error-bg);
+      color: var(--ds-status-error);
+      border-color: rgba(220, 38, 38, 0.2);
+    }
+
+    .btn-disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+
+    /* Badges & Pills */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: var(--ds-radius-pill);
+      font-size: 12px;
+      font-weight: 600;
+      line-height: 1;
+    }
+
+    .badge-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+    }
+
+    .badge-success {
+      background: var(--ds-status-success-bg);
+      color: var(--ds-status-success);
+    }
+    .badge-success .badge-dot { background: var(--ds-status-success); }
+
+    .badge-warning {
+      background: var(--ds-status-warning-bg);
+      color: var(--ds-status-warning);
+    }
+    .badge-warning .badge-dot { background: var(--ds-status-warning); }
+
+    .badge-attention {
+      background: var(--ds-status-attention-bg);
+      color: var(--ds-status-attention);
+    }
+    .badge-attention .badge-dot { background: var(--ds-status-attention); }
+
+    .badge-error {
+      background: var(--ds-status-error-bg);
+      color: var(--ds-status-error);
+    }
+    .badge-error .badge-dot { background: var(--ds-status-error); }
+
+    .badge-info {
+      background: var(--ds-status-info-bg);
+      color: var(--ds-status-info);
+    }
+    .badge-info .badge-dot { background: var(--ds-status-info); }
+
+    /* Form Controls */
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: var(--ds-space-4);
+      margin-bottom: var(--ds-space-6);
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: var(--ds-space-1);
+    }
+
+    .form-label {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--ds-text-primary);
+    }
+
+    .form-input {
+      height: 40px;
+      padding: 0 var(--ds-space-3);
+      border-radius: var(--ds-radius-md);
+      border: 1px solid var(--ds-border-subtle);
+      font-size: 14px;
+      font-family: inherit;
+      color: var(--ds-text-primary);
+      background: #fff;
+      outline: none;
+      transition: border-color 0.15s ease;
+    }
+
+    .form-input:focus {
+      border-color: var(--ds-border-focus);
+      box-shadow: 0 0 0 2px var(--ds-teal-soft);
+    }
+
+    /* Dental Odontogram Component */
+    .odontogram-container {
+      background: #FAFBFC;
+      border: 1px solid var(--ds-border-subtle);
+      border-radius: var(--ds-radius-lg);
+      padding: var(--ds-space-6);
+    }
+
+    .odontogram-toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: var(--ds-space-4);
+      flex-wrap: wrap;
+      gap: var(--ds-space-2);
+    }
+
+    .condition-selector {
+      display: flex;
+      gap: var(--ds-space-2);
+      flex-wrap: wrap;
+    }
+
+    .condition-btn {
+      padding: 4px 10px;
+      font-size: 12px;
+      font-weight: 600;
+      border-radius: var(--ds-radius-sm);
+      border: 1px solid var(--ds-border-subtle);
+      background: #fff;
+      cursor: pointer;
+    }
+
+    .condition-btn.active {
+      border-color: var(--ds-brand-teal);
+      background: var(--ds-teal-soft);
+      color: var(--ds-brand-teal);
+    }
+
+    .arch-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--ds-text-secondary);
+      text-align: center;
+      margin: var(--ds-space-2) 0;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .teeth-quadrants {
+      display: flex;
+      justify-content: center;
+      gap: var(--ds-space-6);
+      margin: var(--ds-space-3) 0;
+      overflow-x: auto;
+      padding-bottom: var(--ds-space-2);
+    }
+
+    .teeth-row {
+      display: flex;
+      gap: 6px;
+    }
+
+    .tooth-card {
+      width: 44px;
+      height: 60px;
+      background: #fff;
+      border: 1px solid var(--ds-border-subtle);
+      border-radius: var(--ds-radius-sm);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      padding: 4px 2px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      position: relative;
+    }
+
+    .tooth-card:hover {
+      border-color: var(--ds-brand-teal);
+      transform: translateY(-2px);
+      box-shadow: 0 2px 8px rgba(13, 92, 88, 0.08);
+    }
+
+    .tooth-card.selected {
+      border: 2px solid var(--ds-brand-teal);
+      background: var(--ds-teal-soft);
+    }
+
+    .tooth-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--ds-text-secondary);
+    }
+
+    /* 5-Surface Diagram */
+    .surface-svg {
+      width: 28px;
+      height: 28px;
+    }
+
+    .surface-polygon {
+      fill: #fff;
+      stroke: #CBD5E1;
+      stroke-width: 1.2;
+      transition: fill 0.15s ease;
+    }
+
+    .surface-polygon:hover {
+      fill: var(--ds-teal-soft);
+    }
+
+    .tooth-card.caries .surface-polygon.center {
+      fill: var(--ds-status-error-bg);
+      stroke: var(--ds-status-error);
+    }
+
+    .tooth-card.rct {
+      border-color: var(--ds-brand-teal);
+    }
+    .tooth-card.rct .surface-polygon.center {
+      fill: var(--ds-teal-soft);
+      stroke: var(--ds-brand-teal);
+    }
+
+    .tooth-card.crown {
+      border-color: var(--ds-status-warning);
+      background: #FFFDF5;
+    }
+
+    .divider-line {
+      width: 100%;
+      height: 1px;
+      background: #CBD5E1;
+      margin: var(--ds-space-2) 0;
+    }
+
+    /* Token Queue Card */
+    .queue-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: var(--ds-space-4);
+    }
+
+    .queue-card {
+      background: #fff;
+      border: 1px solid var(--ds-border-subtle);
+      border-radius: var(--ds-radius-lg);
+      padding: var(--ds-space-4);
+      display: flex;
+      flex-direction: column;
+      gap: var(--ds-space-3);
+      box-shadow: var(--ds-shadow-card);
+    }
+
+    .queue-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .token-id {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--ds-brand-navy);
+      display: flex;
+      align-items: center;
+      gap: var(--ds-space-2);
+    }
+
+    .patient-meta {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--ds-text-primary);
+    }
+
+    .patient-sub {
+      font-size: 12px;
+      color: var(--ds-text-secondary);
+      margin-top: 2px;
+    }
+
+    .queue-actions {
+      display: flex;
+      gap: var(--ds-space-2);
+      margin-top: var(--ds-space-2);
+    }
+
+    /* Treatment Timeline */
+    .timeline-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: var(--ds-space-4);
+      padding-left: var(--ds-space-4);
+      position: relative;
+    }
+
+    .timeline-wrap::before {
+      content: '';
+      position: absolute;
+      left: 27px;
+      top: 14px;
+      bottom: 14px;
+      width: 2px;
+      background: var(--ds-border-subtle);
+    }
+
+    .timeline-item {
+      display: flex;
+      gap: var(--ds-space-4);
+      position: relative;
+    }
+
+    .timeline-marker {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: #fff;
+      border: 2px solid var(--ds-border-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 700;
+      z-index: 1;
+    }
+
+    .timeline-item.done .timeline-marker {
+      border-color: var(--ds-brand-teal);
+      background: var(--ds-brand-teal);
+      color: #fff;
+    }
+
+    .timeline-item.active .timeline-marker {
+      border-color: var(--ds-status-info);
+      background: #fff;
+      color: var(--ds-status-info);
+      box-shadow: 0 0 0 3px var(--ds-status-info-bg);
+    }
+
+    .timeline-content {
+      flex: 1;
+    }
+
+    .timeline-heading {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--ds-text-primary);
+    }
+
+    .timeline-sub {
+      font-size: 12px;
+      color: var(--ds-text-secondary);
+      margin-top: 2px;
+    }
+
+    /* Needs Attention Alert Box */
+    .needs-attention-box {
+      border-left: 4px solid var(--ds-status-warning);
+      background: #FFFDF7;
+      padding: var(--ds-space-4);
+      border-radius: 0 var(--ds-radius-md) var(--ds-radius-md) 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: var(--ds-space-4);
+    }
+
+    .attention-info {
+      display: flex;
+      align-items: center;
+      gap: var(--ds-space-3);
+    }
+
+    .attention-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--ds-text-primary);
+    }
+
+    .attention-desc {
+      font-size: 12px;
+      color: var(--ds-text-secondary);
+    }
+
+    /* Skeleton Loading State */
+    .skeleton {
+      background: linear-gradient(90deg, #F1F5F9 25%, #E2E8F0 50%, #F1F5F9 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite;
+      border-radius: var(--ds-radius-sm);
+    }
+
+    @keyframes shimmer {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+
+    .skeleton-card {
+      padding: var(--ds-space-4);
+      border: 1px solid var(--ds-border-subtle);
+      border-radius: var(--ds-radius-lg);
+      background: #fff;
+      display: flex;
+      flex-direction: column;
+      gap: var(--ds-space-3);
+    }
+
+    /* Toast Notification */
+    .toast-preview {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--ds-brand-navy);
+      color: #fff;
+      padding: var(--ds-space-3) var(--ds-space-4);
+      border-radius: var(--ds-radius-md);
+      font-size: 13px;
+      font-weight: 500;
+      max-width: 400px;
+    }
+
+    /* Responsive Frame Preview Selector */
+    .preview-modes {
+      display: flex;
+      gap: var(--ds-space-2);
+      margin-bottom: var(--ds-space-6);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Showcase Navigation -->
+  <header class="showcase-header">
+    <div class="brand-mark">
+      <div class="brand-emblem">DS</div>
+      <div>
+        <span class="brand-title">DENTAL SQUARE</span>
+        <span class="brand-subtitle">Design System & UX Constitution (Phase 0)</span>
+      </div>
+    </div>
+    <nav class="nav-pills">
+      <a href="#tokens" class="nav-pill active">Tokens</a>
+      <a href="#typography" class="nav-pill">Typography</a>
+      <a href="#buttons" class="nav-pill">Buttons & Forms</a>
+      <a href="#odontogram" class="nav-pill">Odontogram</a>
+      <a href="#queue" class="nav-pill">Queue & Timeline</a>
+      <a href="#states" class="nav-pill">UI States</a>
+    </nav>
+  </header>
+
+  <main class="container">
+
+    <!-- Section 1: Design Tokens & Palette -->
+    <section id="tokens" class="section-block">
+      <h2 class="section-title">1. Color System Tokens</h2>
+      <p class="section-desc">Derived from Dental Square's Lalpur clinic: teak reception, surgical navy signage, and calm slate blue dental chairs.</p>
+      
+      <div class="swatch-grid">
+        <div class="swatch-card">
+          <div class="swatch-color" style="background: #0D5C58;"></div>
+          <div class="swatch-meta">
+            <div class="swatch-name">Primary Teal</div>
+            <div class="swatch-hex mono">#0D5C58</div>
+          </div>
+        </div>
+        <div class="swatch-card">
+          <div class="swatch-color" style="background: #0F2C59;"></div>
+          <div class="swatch-meta">
+            <div class="swatch-name">Royal Navy</div>
+            <div class="swatch-hex mono">#0F2C59</div>
+          </div>
+        </div>
+        <div class="swatch-card">
+          <div class="swatch-color" style="background: #4A6FA5;"></div>
+          <div class="swatch-meta">
+            <div class="swatch-name">Operatory Slate Blue</div>
+            <div class="swatch-hex mono">#4A6FA5</div>
+          </div>
+        </div>
+        <div class="swatch-card">
+          <div class="swatch-color" style="background: #F9F9FB; border-bottom: 1px solid #E2E8F0;"></div>
+          <div class="swatch-meta">
+            <div class="swatch-name">Warm Off-White Canvas</div>
+            <div class="swatch-hex mono">#F9F9FB</div>
+          </div>
+        </div>
+        <div class="swatch-card">
+          <div class="swatch-color" style="background: #1E2229;"></div>
+          <div class="swatch-meta">
+            <div class="swatch-name">Deep Charcoal Text</div>
+            <div class="swatch-hex mono">#1E2229</div>
+          </div>
+        </div>
+        <div class="swatch-card">
+          <div class="swatch-color" style="background: #E2E8F0;"></div>
+          <div class="swatch-meta">
+            <div class="swatch-name">Subtle 1px Border</div>
+            <div class="swatch-hex mono">#E2E8F0</div>
+          </div>
+        </div>
+      </div>
+
+      <h3 style="font-size: 16px; font-weight: 600; margin: var(--ds-space-6) 0 var(--ds-space-3);">Soft Semantic Status Badges</h3>
+      <div style="display: flex; gap: var(--ds-space-3); flex-wrap: wrap;">
+        <span class="badge badge-success"><span class="badge-dot"></span>Completed · Healthy</span>
+        <span class="badge badge-warning"><span class="badge-dot"></span>Follow-up Due</span>
+        <span class="badge badge-attention"><span class="badge-dot"></span>Notice · Review</span>
+        <span class="badge badge-error"><span class="badge-dot"></span>Pathology · Caries</span>
+        <span class="badge badge-info"><span class="badge-dot"></span>In Operatory Chair</span>
+      </div>
+    </section>
+
+    <!-- Section 2: Typography Scale -->
+    <section id="typography" class="section-block">
+      <h2 class="section-title">2. Typographic Scale & Hierarchy</h2>
+      <p class="section-desc">Single coherent font system: Plus Jakarta Sans with JetBrains Mono for clinical tooth and token codes.</p>
+
+      <div class="type-row">
+        <div class="type-label">Display (36px / Bold)</div>
+        <div class="type-sample" style="font-size: 36px; font-weight: 700; line-height: 44px; letter-spacing: -0.02em;">Advanced Dental Care with a Human Touch</div>
+      </div>
+      <div class="type-row">
+        <div class="type-label">Page Title (24px / SemiBold)</div>
+        <div class="type-sample" style="font-size: 24px; font-weight: 600; line-height: 32px;">Front Desk & Operatory Queue</div>
+      </div>
+      <div class="type-row">
+        <div class="type-label">Section Heading (18px / SemiBold)</div>
+        <div class="type-sample" style="font-size: 18px; font-weight: 600; line-height: 24px;">Today's Operatory Schedule (Dr. Vandana Choudhary)</div>
+      </div>
+      <div class="type-row">
+        <div class="type-label">Card Heading (16px / SemiBold)</div>
+        <div class="type-sample" style="font-size: 16px; font-weight: 600; line-height: 22px;">Multi-Stage Root Canal Treatment Plan #402</div>
+      </div>
+      <div class="type-row">
+        <div class="type-label">Body Text (14px / Regular)</div>
+        <div class="type-sample" style="font-size: 14px; font-weight: 400; line-height: 20px;">Patient presented with lingering sensitivity on tooth #26. Vitality testing confirms irreversible pulpitis.</div>
+      </div>
+      <div class="type-row">
+        <div class="type-label">Monospace IDs (16px / Bold)</div>
+        <div class="type-sample mono" style="font-size: 16px; font-weight: 700; color: var(--ds-brand-teal);">TOKEN #07 · TOOTH #26 · UHID #DS-1042</div>
+      </div>
+    </section>
+
+    <!-- Section 3: Buttons & Form Inputs -->
+    <section id="buttons" class="section-block">
+      <h2 class="section-title">3. Interactive Controls & Form Ergonomics</h2>
+      <p class="section-desc">Single primary CTA rule, comfortable 8px radius, and explicit keyboard focus rings.</p>
+
+      <div class="btn-group">
+        <button class="btn btn-primary">Book an Appointment</button>
+        <button class="btn btn-navy">Call Next Token</button>
+        <button class="btn btn-secondary">Add Another Tooth</button>
+        <button class="btn btn-ghost">View Details →</button>
+        <button class="btn btn-destructive">Remove Stage</button>
+        <button class="btn btn-primary btn-disabled">Saving...</button>
+      </div>
+
+      <div class="form-grid">
+        <div class="form-group">
+          <label class="form-label">Full Name</label>
+          <input type="text" class="form-input" placeholder="e.g., Rajesh Sharma" value="Rajesh Sharma" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Mobile Number</label>
+          <input type="tel" class="form-input mono" placeholder="+91 94311 XXXXX" value="+91 94311 82522" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Select Treating Specialist</label>
+          <select class="form-input">
+            <option>Dr. Vandana Choudhary (Endodontist & RCT)</option>
+            <option>Dr. Anuj Kumar (Oral & Maxillofacial Surgeon)</option>
+          </select>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 4: Interactive Dental Odontogram -->
+    <section id="odontogram" class="section-block">
+      <div style="display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap;">
+        <h2 class="section-title">4. Functional Dental Odontogram (FDI Two-Digit Standard)</h2>
+        <span style="font-size: 12px; color: var(--ds-text-secondary);">*Prototype Default — subject to clinic workflow confirmation</span>
+      </div>
+      <p class="section-desc">Click any tooth or surface to test condition mapping. Zero cartoon clipart; purely clinical information design.</p>
+
+      <div class="odontogram-container">
+        <div class="odontogram-toolbar">
+          <div style="font-size: 13px; font-weight: 600;">Selected Condition:</div>
+          <div class="condition-selector">
+            <button class="condition-btn active" onclick="setCondition('sound', this)">Sound</button>
+            <button class="condition-btn" onclick="setCondition('caries', this)">Caries (Red)</button>
+            <button class="condition-btn" onclick="setCondition('rct', this)">RCT (Teal)</button>
+            <button class="condition-btn" onclick="setCondition('crown', this)">Crown (Amber)</button>
+          </div>
+          <div>
+            <button class="btn btn-secondary" style="height: 32px; font-size: 12px;" onclick="toggleDentition()">Switch to Pediatric Dentition</button>
+          </div>
+        </div>
+
+        <div class="arch-label">Maxillary Arch (Upper Jaw)</div>
+        <div class="teeth-quadrants">
+          <!-- Quadrant 1 (Upper Right) -->
+          <div class="teeth-row" id="q1">
+            <div class="tooth-card" onclick="applyTooth(this, 18)"><span class="tooth-num">18</span><svg class="surface-svg" viewBox="0 0 40 40"><polygon class="surface-polygon" points="0,0 40,0 30,10 10,10"/><polygon class="surface-polygon" points="0,40 40,40 30,30 10,30"/><polygon class="surface-polygon" points="0,0 0,40 10,30 10,10"/><polygon class="surface-polygon" points="40,0 40,40 30,30 30,10"/><polygon class="surface-polygon center" points="10,10 30,10 30,30 10,30"/></svg></div>
+            <div class="tooth-card" onclick="applyTooth(this, 17)"><span class="tooth-num">17</span><svg class="surface-svg" viewBox="0 0 40 40"><polygon class="surface-polygon" points="0,0 40,0 30,10 10,10"/><polygon class="surface-polygon" points="0,40 40,40 30,30 10,30"/><polygon class="surface-polygon" points="0,0 0,40 10,30 10,10"/><polygon class="surface-polygon" points="40,0 40,40 30,30 30,10"/><polygon class="surface-polygon center" points="10,10 30,10 30,30 10,30"/></svg></div>
+            <div class="tooth-card caries" onclick="applyTooth(this, 16)"><span class="tooth-num">16</span><svg class="surface-svg" viewBox="0 0 40 40"><polygon class="surface-polygon" points="0,0 40,0 30,10 10,10"/><polygon class="surface-polygon" points="0,40 40,40 30,30 10,30"/><polygon class="surface-polygon" points="0,0 0,40 10,30 10,10"/><polygon class="surface-polygon" points="40,0 40,40 30,30 30,10"/><polygon class="surface-polygon center" points="10,10 30,10 30,30 10,30"/></svg></div>
+            <div class="tooth-card" onclick="applyTooth(this, 15)"><span class="tooth-num">15</span><svg class="surface-svg" viewBox="0 0 40 40"><polygon class="surface-polygon" points="0,0 40,0 30,10 10,10"/><polygon class="surface-polygon" points="0,40 40,40 30,30 10,30"/><polygon class="surface-polygon" points="0,0 0,40 10,30 10,10"/><polygon class="surface-polygon" points="40,0 40,40 30,30 30,10"/><polygon class="surface-polygon center" points="10,10 30,10 30,30 10,30"/></svg></div>
+            <div class="tooth-card" onclick="applyTooth(this, 14)"><span class="tooth-num">14</span><svg class="surface-svg" viewBox="0 0 40 40"><polygon class="surface-polygon" points="0,0 40,0 30,10 10,10"/><polygon class="surface-polygon" points="0,40 40,40 30,30 10,30"/><polygon class="surface-polygon" points="0,0 0,40 10,30 10,10"/><polygon class="surface-polygon" points="40,0 40,40 30,30 30,10"/><polygon class="surface-polygon center" points="10,10 30,10 30,30 10,30"/></svg></div>
+            <div class="tooth-card" onclick="applyTooth(this, 13)"><span class="tooth-num">13</span><svg class="surface-svg" viewBox="0 0 40 40"><polygon class="surface-polygon" points="0,0 40,0 30,10 10,10"/><polygon class="surface-polygon" points="0,40 40,40 30,30 10,30"/><polygon class="surface-polygon" points="0,0 0,40 10,30 10,10"/><polygon class="surface-polygon" points="40,0 40,40 30,30 30,10"/><polygon class="surface-polygon center" points="10,10 30,10 30,30 10,30"/></svg></div>
+            <div class="tooth-card" onclick="applyTooth(this, 12)"><span class="tooth-num">12</span><svg class="surface-svg" viewBox="0 0 40 40"><polygon class="surface-polygon" points="0,0 40,0 30,10 10,10"/><polygon class="surface-polygon" points="0,40 40,40 30,30 10,30"/><polygon class="surface-polygon" points="0,0 0,40 10,30 10,10"/><polygon class="surface-polygon" points="40,0 40,40 30,30 30,10"/><polygon class="surface-polygon center" points="10,10 30,10 30,30 10,30"/></svg></div>
+            <div class="tooth-card" onclick="applyTooth(this, 11)"><span class="tooth-num">11</span><svg class="surface-svg" viewBox="0 0 40 40"><polygon class="surface-polygon" points="0,0 40,0 30,10 10,10"/><polygon class="surface-polygon" points="0,40 40,40 30,30 10,30"/><polygon class="surface-polygon" points="0,0 0,40 10,30 10,10"/><polygon class="surface-polygon" points="40,0 40,40 30,30 30,10"/><polygon class="surface-polygon center" points="10,10 30,10 30,30 10,30"/></svg></div>
+          </div>
+          <div style="width: 2px; background: #CBD5E1; margin: 0 4px;"></div>
+          <!-- Quadrant 2 (Upper Left) -->
+          <div class="teeth-row" id="q2">
+            <div class="tooth-card" onclick="applyTooth(this, 21)"><span class="tooth-num">21</span><svg class="surface-svg" viewBox="0 0 40 40"><polygon class="surface-polygon" points="0,0 40,0 30,10 10,10"/><polygon class="surface-polygon" points="0,40 40,40 30,30 10,30"/><polygon class="surface-polygon" points="0,0 0,40 10,30 10,10"/><polygon class="surface-polygon" points="40,0 40,40 30,30 30,10"/><polygon class="surface-polygon center" points="10,10 30,10 30,30 10,30"/></svg></div>
+            <div class="tooth-card" onclick="applyTooth(this, 22)"><span class="tooth-num">22</span><svg class="surface-svg" viewBox="0 0 40 40"><polygon class="surface-polygon" points="0,0 40,0 30,10 10,10"/><polygon class="surface-polygon" points="0,40 40,40 30,30 10,30"/><polygon class="surface-polygon" points="0,0 0,40 10,30 10,10"/><polygon class="surface-polygon" points="40,0 40,40 30,30 30,10"/><polygon class="surface-polygon center" points="10,10 30,10 30,30 10,30"/></svg></div>
+            <div class="tooth-card" onclick="applyTooth(this, 23)"><span class="tooth-num">23</span><svg class="surface-svg" viewBox="0 0 40 40"><polygon class="surface-polygon" points="0,0 40,0 30,10 10,10"/><polygon class="surface-polygon" points="0,40 40,40 30,30 10,30"/><polygon class="surface-polygon" points="0,0 0,40 10,30 10,10"/><polygon class="surface-polygon" points="40,0 40,40 30,30 30,10"/><polygon class="surface-polygon center" points="10,10 30,10 30,30 10,30"/></svg></div>
+            <div class="tooth-card" onclick="applyTooth(this, 24)"><span class="tooth-num">24</span><svg class="surface-svg" viewBox="0 0 40 40"><polygon class="surface-polygon" points="0,0 40,0 30,10 10,10"/><polygon class="surface-polygon" points="0,40 40,40 30,30 10,30"/><polygon class="surface-polygon" points="0,0 0,40 10,30 10,10"/><polygon class="surface-polygon" points="40,0 40,40 30,30 30,10"/><polygon class="surface-polygon center" points="10,10 30,10 30,30 10,30"/></svg></div>
+            <div class="tooth-card" onclick="applyTooth(this, 25)"><span class="tooth-num">25</span><svg class="surface-svg" viewBox="0 0 40 40"><polygon class="surface-polygon" points="0,0 40,0 30,10 10,10"/><polygon class="surface-polygon" points="0,40 40,40 30,30 10,30"/><polygon class="surface-polygon" points="0,0 0,40 10,30 10,10"/><polygon class="surface-polygon" points="40,0 40,40 30,30 30,10"/><polygon class="surface-polygon center" points="10,10 30,10 30,30 10,30"/></svg></div>
+            <div class="tooth-card rct" onclick="applyTooth(this, 26)"><span class="tooth-num">26</span><svg class="surface-svg" viewBox="0 0 40 40"><polygon class="surface-polygon" points="0,0 40,0 30,10 10,10"/><polygon class="surface-polygon" points="0,40 40,40 30,30 10,30"/><polygon class="surface-polygon" points="0,0 0,40 10,30 10,10"/><polygon class="surface-polygon" points="40,0 40,40 30,30 30,10"/><polygon class="surface-polygon center" points="10,10 30,10 30,30 10,30"/></svg></div>
+            <div class="tooth-card crown" onclick="applyTooth(this, 27)"><span class="tooth-num">27</span><svg class="surface-svg" viewBox="0 0 40 40"><polygon class="surface-polygon" points="0,0 40,0 30,10 10,10"/><polygon class="surface-polygon" points="0,40 40,40 30,30 10,30"/><polygon class="surface-polygon" points="0,0 0,40 10,30 10,10"/><polygon class="surface-polygon" points="40,0 40,40 30,30 30,10"/><polygon class="surface-polygon center" points="10,10 30,10 30,30 10,30"/></svg></div>
+            <div class="tooth-card" onclick="applyTooth(this, 28)"><span class="tooth-num">28</span><svg class="surface-svg" viewBox="0 0 40 40"><polygon class="surface-polygon" points="0,0 40,0 30,10 10,10"/><polygon class="surface-polygon" points="0,40 40,40 30,30 10,30"/><polygon class="surface-polygon" points="0,0 0,40 10,30 10,10"/><polygon class="surface-polygon" points="40,0 40,40 30,30 30,10"/><polygon class="surface-polygon center" points="10,10 30,10 30,30 10,30"/></svg></div>
+          </div>
+        </div>
+
+        <div class="divider-line"></div>
+        <div class="arch-label">Mandibular Arch (Lower Jaw)</div>
+        <div class="teeth-quadrants">
+          <!-- Quadrant 4 (Lower Right) -->
+          <div class="teeth-row" id="q4">
+            <div class="tooth-card" onclick="applyTooth(this, 48)"><span class="tooth-num">48</span><svg class="surface-svg" viewBox="0 0 40 40"><polygon class="surface-polygon" points="0,0 40,0 30,10 10,10"/><polygon class="surface-polygon" points="0,40 40,40 30,30 10,30"/><polygon class="surface-polygon" points="0,0 0,40 10,30 10,10"/><polygon class="surface-polygon" points="40,0 40,40 30,30 30,10"/><polygon class="surface-polygon center" points="10,10 30,10 30,30 10,30"/></svg></div>
+            <div class="tooth-card" onclick="applyTooth(this, 47)"><span class="tooth-num">47</span><svg class="surface-svg" viewBox="0 0 40 40"><polygon class="surface-polygon" points="0,0 40,0 30,10 10,10"/><polygon class="surface-polygon" points="0,40 40,40 30,30 10,30"/><polygon class="surface-polygon" points="0,0 0,40 10,30 10,10"/><polygon class="surface-polygon" points="40,0 40,40 30,30 30,10"/><polygon class="surface-polygon center" points="10,10 30,10 30,30 10,30"/></svg></div>
+            <div class="tooth-card" onclick="applyTooth(this, 46)"><span class="tooth-num">46</span><svg class="surface-svg" viewBox="0 0 40 40"><polygon class="surface-polygon" points="0,0 40,0 30,10 10,10"/><polygon class="surface-polygon" points="0,40 40,40 30,30 10,30"/><polygon class="surface-polygon" points="0,0 0,40 10,30 10,10"/><polygon class="surface-polygon" points="40,0 40,40 30,30 30,10"/><polygon class="surface-polygon center" points="10,10 30,10 30,30 10,30"/></svg></div>
+            <div class="tooth-card" onclick="applyTooth(this, 45)"><span class="tooth-num">45</span><svg class="surface-svg" viewBox="0 0 40 40"><polygon class="surface-polygon" points="0,0 40,0 30,10 10,10"/><polygon class="surface-polygon" points="0,40 40,40 30,30 10,30"/><polygon class="surface-polygon" points="0,0 0,40 10,30 10,10"/><polygon class="surface-polygon" points="40,0 40,40 30,30 30,10"/><polygon class="surface-polygon center" points="10,10 30,10 30,30 10,30"/></svg></div>
+            <div class="tooth-card" onclick="applyTooth(this, 44)"><span class="tooth-num">44</span><svg class="surface-svg" viewBox="0 0 40 40"><polygon class="surface-polygon" points="0,0 40,0 30,10 10,10"/><polygon class="surface-polygon" points="0,40 40,40 30,30 10,30"/><polygon class="surface-polygon" points="0,0 0,40 10,30 10,10"/><polygon class="surface-polygon" points="40,0 40,40 30,30 30,10"/><polygon class="surface-polygon center" points="10,10 30,10 30,30 10,30"/></svg></div>
+            <div class="tooth-card" onclick="applyTooth(this, 43)"><span class="tooth-num">43</span><svg class="surface-svg" viewBox="0 0 40 40"><polygon class="surface-polygon" points="0,0 40,0 30,10 10,10"/><polygon class="surface-polygon" points="0,40 40,40 30,30 10,30"/><polygon class="surface-polygon" points="0,0 0,40 10,30 10,10"/><polygon class="surface-polygon" points="40,0 40,40 30,30 30,10"/><polygon class="surface-polygon center" points="10,10 30,10 30,30 10,30"/></svg></div>
+            <div class="tooth-card" onclick="applyTooth(this, 42)"><span class="tooth-num">42</span><svg class="surface-svg" viewBox="0 0 40 40"><polygon class="surface-polygon" points="0,0 40,0 30,10 10,10"/><polygon class="surface-polygon" points="0,40 40,40 30,30 10,30"/><polygon class="surface-polygon" points="0,0 0,40 10,30 10,10"/><polygon class="surface-polygon" points="40,0 40,40 30,30 30,10"/><polygon class="surface-polygon center" points="10,10 30,10 30,30 10,30"/></svg></div>
+            <div class="tooth-card" onclick="applyTooth(this, 41)"><span class="tooth-num">41</span><svg class="surface-svg" viewBox="0 0 40 40"><polygon class="surface-polygon" points="0,0 40,0 30,10 10,10"/><polygon class="surface-polygon" points="0,40 40,40 30,30 10,30"/><polygon class="surface-polygon" points="0,0 0,40 10,30 10,10"/><polygon class="surface-polygon" points="40,0 40,40 30,30 30,10"/><polygon class="surface-polygon center" points="10,10 30,10 30,30 10,30"/></svg></div>
+          </div>
+          <div style="width: 2px; background: #CBD5E1; margin: 0 4px;"></div>
+          <!-- Quadrant 3 (Lower Left) -->
+          <div class="teeth-row" id="q3">
+            <div class="tooth-card" onclick="applyTooth(this, 31)"><span class="tooth-num">31</span><svg class="surface-svg" viewBox="0 0 40 40"><polygon class="surface-polygon" points="0,0 40,0 30,10 10,10"/><polygon class="surface-polygon" points="0,40 40,40 30,30 10,30"/><polygon class="surface-polygon" points="0,0 0,40 10,30 10,10"/><polygon class="surface-polygon" points="40,0 40,40 30,30 30,10"/><polygon class="surface-polygon center" points="10,10 30,10 30,30 10,30"/></svg></div>
+            <div class="tooth-card" onclick="applyTooth(this, 32)"><span class="tooth-num">32</span><svg class="surface-svg" viewBox="0 0 40 40"><polygon class="surface-polygon" points="0,0 40,0 30,10 10,10"/><polygon class="surface-polygon" points="0,40 40,40 30,30 10,30"/><polygon class="surface-polygon" points="0,0 0,40 10,30 10,10"/><polygon class="surface-polygon" points="40,0 40,40 30,30 30,10"/><polygon class="surface-polygon center" points="10,10 30,10 30,30 10,30"/></svg></div>
+            <div class="tooth-card" onclick="applyTooth(this, 33)"><span class="tooth-num">33</span><svg class="surface-svg" viewBox="0 0 40 40"><polygon class="surface-polygon" points="0,0 40,0 30,10 10,10"/><polygon class="surface-polygon" points="0,40 40,40 30,30 10,30"/><polygon class="surface-polygon" points="0,0 0,40 10,30 10,10"/><polygon class="surface-polygon" points="40,0 40,40 30,30 30,10"/><polygon class="surface-polygon center" points="10,10 30,10 30,30 10,30"/></svg></div>
+            <div class="tooth-card" onclick="applyTooth(this, 34)"><span class="tooth-num">34</span><svg class="surface-svg" viewBox="0 0 40 40"><polygon class="surface-polygon" points="0,0 40,0 30,10 10,10"/><polygon class="surface-polygon" points="0,40 40,40 30,30 10,30"/><polygon class="surface-polygon" points="0,0 0,40 10,30 10,10"/><polygon class="surface-polygon" points="40,0 40,40 30,30 30,10"/><polygon class="surface-polygon center" points="10,10 30,10 30,30 10,30"/></svg></div>
+            <div class="tooth-card" onclick="applyTooth(this, 35)"><span class="tooth-num">35</span><svg class="surface-svg" viewBox="0 0 40 40"><polygon class="surface-polygon" points="0,0 40,0 30,10 10,10"/><polygon class="surface-polygon" points="0,40 40,40 30,30 10,30"/><polygon class="surface-polygon" points="0,0 0,40 10,30 10,10"/><polygon class="surface-polygon" points="40,0 40,40 30,30 30,10"/><polygon class="surface-polygon center" points="10,10 30,10 30,30 10,30"/></svg></div>
+            <div class="tooth-card" onclick="applyTooth(this, 36)"><span class="tooth-num">36</span><svg class="surface-svg" viewBox="0 0 40 40"><polygon class="surface-polygon" points="0,0 40,0 30,10 10,10"/><polygon class="surface-polygon" points="0,40 40,40 30,30 10,30"/><polygon class="surface-polygon" points="0,0 0,40 10,30 10,10"/><polygon class="surface-polygon" points="40,0 40,40 30,30 30,10"/><polygon class="surface-polygon center" points="10,10 30,10 30,30 10,30"/></svg></div>
+            <div class="tooth-card" onclick="applyTooth(this, 37)"><span class="tooth-num">37</span><svg class="surface-svg" viewBox="0 0 40 40"><polygon class="surface-polygon" points="0,0 40,0 30,10 10,10"/><polygon class="surface-polygon" points="0,40 40,40 30,30 10,30"/><polygon class="surface-polygon" points="0,0 0,40 10,30 10,10"/><polygon class="surface-polygon" points="40,0 40,40 30,30 30,10"/><polygon class="surface-polygon center" points="10,10 30,10 30,30 10,30"/></svg></div>
+            <div class="tooth-card" onclick="applyTooth(this, 38)"><span class="tooth-num">38</span><svg class="surface-svg" viewBox="0 0 40 40"><polygon class="surface-polygon" points="0,0 40,0 30,10 10,10"/><polygon class="surface-polygon" points="0,40 40,40 30,30 10,30"/><polygon class="surface-polygon" points="0,0 0,40 10,30 10,10"/><polygon class="surface-polygon" points="40,0 40,40 30,30 30,10"/><polygon class="surface-polygon center" points="10,10 30,10 30,30 10,30"/></svg></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 5: Queue & Treatment Journey -->
+    <section id="queue" class="section-block">
+      <h2 class="section-title">5. Operations Queue & Clinical Treatment Journey</h2>
+      <p class="section-desc">Live token queue cards and multi-visit clinical milestone progression.</p>
+
+      <div class="needs-attention-box">
+        <div class="attention-info">
+          <span style="font-size: 20px;">⚠️</span>
+          <div>
+            <div class="attention-title">4 Incomplete RCT Journeys Detected</div>
+            <div class="attention-desc">Patients completed canal obturation > 14 days ago without permanent crown scheduling.</div>
+          </div>
+        </div>
+        <button class="btn btn-primary" style="height: 34px; font-size: 13px;" onclick="alert('Action dispatched: 4 WhatsApp crown safety alerts queued for delivery.')">Send Crown Urgency Alert (4)</button>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--ds-space-6); margin-top: var(--ds-space-6);">
+        <!-- Live Queue Card Preview -->
+        <div>
+          <h3 style="font-size: 15px; font-weight: 600; margin-bottom: var(--ds-space-3);">Live Token Queue Item</h3>
+          <div class="queue-card">
+            <div class="queue-header">
+              <span class="token-id">TOKEN #07</span>
+              <span class="badge badge-warning"><span class="badge-dot"></span>In Waiting Lounge (12m)</span>
+            </div>
+            <div>
+              <div class="patient-meta">Rajesh Sharma (34 yrs, Male)</div>
+              <div class="patient-sub mono">+91 94311 82522 · UHID #DS-1042</div>
+              <div class="patient-sub" style="margin-top: 6px;">Doctor: <strong>Dr. Vandana Choudhary</strong> · Operatory 2</div>
+              <div class="patient-sub">Scheduled Procedure: <strong>#26 Root Canal Treatment (Stage 2)</strong></div>
+            </div>
+            <div class="queue-actions">
+              <button class="btn btn-primary" style="flex: 1; height: 36px; font-size: 13px;" onclick="alert('Token #07 called into Operatory Chair 2.')">Call into Chair 2</button>
+              <button class="btn btn-secondary" style="height: 36px; font-size: 13px;">Reschedule</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Treatment Journey Timeline -->
+        <div>
+          <h3 style="font-size: 15px; font-weight: 600; margin-bottom: var(--ds-space-3);">Treatment Journey (#26 Multi-Visit RCT)</h3>
+          <div class="timeline-wrap">
+            <div class="timeline-item done">
+              <div class="timeline-marker">✓</div>
+              <div class="timeline-content">
+                <div class="timeline-heading">Step 1: Access Opening & Pulpectomy</div>
+                <div class="timeline-sub">Completed on Sep 12 · Acute pain relief achieved</div>
+              </div>
+            </div>
+            <div class="timeline-item active">
+              <div class="timeline-marker">2</div>
+              <div class="timeline-content">
+                <div class="timeline-heading">Step 2: Biomechanical Prep & Canal Shaping</div>
+                <div class="timeline-sub" style="color: var(--ds-status-info); font-weight: 600;">In Progress Today · Working length established</div>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-marker">3</div>
+              <div class="timeline-content">
+                <div class="timeline-heading">Step 3: Canal Obturation (Gutta-Percha)</div>
+                <div class="timeline-sub">Upcoming · Scheduled for Sep 22</div>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-marker">4</div>
+              <div class="timeline-content">
+                <div class="timeline-heading">Step 4: Permanent Zirconia Crown Restoration</div>
+                <div class="timeline-sub">Pending · Vital protection against vertical root fracture</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 6: UI Lifecycle & Feedback States -->
+    <section id="states" class="section-block">
+      <h2 class="section-title">6. Universal UI Lifecycle & Feedback States</h2>
+      <p class="section-desc">Skeleton loading, calm empty states, accessible error recovery, and toast confirmations.</p>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: var(--ds-space-4); margin-bottom: var(--ds-space-6);">
+        <!-- Skeleton Card -->
+        <div class="skeleton-card">
+          <div class="skeleton" style="height: 18px; width: 40%;"></div>
+          <div class="skeleton" style="height: 14px; width: 75%;"></div>
+          <div class="skeleton" style="height: 14px; width: 60%;"></div>
+          <div class="skeleton" style="height: 36px; width: 100%; margin-top: 8px;"></div>
+        </div>
+
+        <!-- Empty State -->
+        <div style="padding: var(--ds-space-6); border: 1px dashed var(--ds-border-subtle); border-radius: var(--ds-radius-lg); text-align: center; background: #fff;">
+          <div style="font-size: 24px; margin-bottom: var(--ds-space-2);">🦷</div>
+          <div style="font-size: 14px; font-weight: 600; color: var(--ds-text-primary);">Your Schedule is Clear</div>
+          <div style="font-size: 12px; color: var(--ds-text-secondary); margin-top: 4px;">No upcoming appointments in the waiting lounge.</div>
+          <button class="btn btn-secondary" style="margin-top: var(--ds-space-3); height: 32px; font-size: 12px;">+ Check in Walk-in Patient</button>
+        </div>
+
+        <!-- Error State -->
+        <div style="padding: var(--ds-space-6); border: 1px solid var(--ds-status-error-bg); border-radius: var(--ds-radius-lg); background: #FFFDFD; text-align: center;">
+          <div style="font-size: 18px; color: var(--ds-status-error); margin-bottom: var(--ds-space-1);">⚠️</div>
+          <div style="font-size: 13px; font-weight: 600; color: var(--ds-status-error);">We couldn't load today's appointments</div>
+          <div style="font-size: 12px; color: var(--ds-text-secondary); margin-top: 4px;">Check network connectivity or retry.</div>
+          <button class="btn btn-secondary" style="margin-top: var(--ds-space-3); height: 32px; font-size: 12px;" onclick="alert('Retrying connection...')">Try Again</button>
+        </div>
+      </div>
+
+      <!-- Toast Preview -->
+      <div class="toast-preview">
+        <span>✓ Appointment confirmed for Rajesh Sharma (10:30 AM)</span>
+        <span style="opacity: 0.7; cursor: pointer;" onclick="this.parentElement.style.display='none'">✕</span>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    let currentCondition = 'sound';
+    let isPediatric = false;
+
+    function setCondition(cond, btn) {
+      currentCondition = cond;
+      document.querySelectorAll('.condition-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    }
+
+    function applyTooth(card, num) {
+      card.classList.remove('caries', 'rct', 'crown');
+      if (currentCondition !== 'sound') {
+        card.classList.add(currentCondition);
+      }
+      card.classList.add('selected');
+      setTimeout(() => card.classList.remove('selected'), 300);
+    }
+
+    function toggleDentition() {
+      isPediatric = !isPediatric;
+      alert(isPediatric ? "Switched Odontogram display to primary dentition (Teeth 51-85)." : "Switched Odontogram display to permanent adult dentition (Teeth 11-48).");
+    }
+  </script>
+</body>
+</html>

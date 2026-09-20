@@ -1,0 +1,1217 @@
+/**
+ * Dental Square — Clinical Workspace Stylesheet
+ * Phase 4 Implementation
+ * Strict adherence to Phase 0 Design Tokens & Phase 1 Visual Architecture
+ */
+
+:root {
+  --ds-navy: #0F2C59;
+  --ds-navy-dark: #0A1E3D;
+  --ds-navy-light: #1A3F7A;
+  --ds-teal: #0D5C58;
+  --ds-teal-light: #127570;
+  --ds-teal-subtle: #E6F4F1;
+  --ds-slate: #4A6FA5;
+  --ds-canvas: #F9F9FB;
+  --ds-surface: #FFFFFF;
+  --ds-charcoal: #1E2229;
+  --ds-muted: #64748B;
+  --ds-border: #E2E8F0;
+  --ds-border-dark: #CBD5E1;
+  --ds-gold: #C5A880;
+
+  /* Clinical Status Tokens - Calm & Accessible */
+  --clinic-caries: #B91C1C;
+  --clinic-caries-bg: rgba(185, 28, 28, 0.12);
+  --clinic-restored: #0D5C58;
+  --clinic-restored-bg: rgba(13, 92, 88, 0.12);
+  --clinic-rct: #6D28D9;
+  --clinic-rct-bg: rgba(109, 40, 217, 0.12);
+  --clinic-crown: #B45309;
+  --clinic-crown-bg: rgba(180, 83, 9, 0.12);
+  --clinic-missing: #64748B;
+  --clinic-missing-bg: rgba(100, 116, 139, 0.12);
+  --clinic-healthy: #FFFFFF;
+  --clinic-healthy-border: #CBD5E1;
+
+  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', 'SFMono-Regular', Consolas, monospace;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body.clinical-body {
+  font-family: var(--font-sans);
+  background-color: var(--ds-canvas);
+  color: var(--ds-charcoal);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  -webkit-font-smoothing: antialiased;
+}
+
+.mono {
+  font-family: var(--font-mono);
+}
+
+/* ==========================================================================
+   01. Header & Navigation
+   ========================================================================== */
+.clinical-header {
+  background: var(--ds-surface);
+  border-bottom: 1px solid var(--ds-border);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.clinical-header-inner {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 12px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.clinic-brand-wrap {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  color: inherit;
+}
+
+.clinic-brand-logo {
+  height: 38px;
+  width: auto;
+  object-fit: contain;
+}
+
+.clinic-brand-title {
+  font-size: 1.1rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--ds-navy);
+}
+
+.clinic-brand-subtitle {
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  color: var(--ds-teal);
+  font-weight: 600;
+  margin-left: 4px;
+}
+
+.clinical-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.btn-clinic-dash-return {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 6px;
+  border: 1px solid var(--ds-border-dark);
+  background: var(--ds-surface);
+  color: var(--ds-charcoal);
+  font-size: 0.82rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.15s ease;
+}
+
+.btn-clinic-dash-return:hover {
+  border-color: var(--ds-navy);
+  color: var(--ds-navy);
+  background: #F1F5F9;
+}
+
+.staff-session-pill {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 12px;
+  border-radius: 20px;
+  background: #F1F5F9;
+  border: 1px solid var(--ds-border);
+}
+
+.staff-role-tag {
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: var(--ds-navy);
+  color: #FFF;
+}
+
+.staff-role-tag.dentist {
+  background: var(--ds-teal);
+}
+
+.staff-role-tag.owner {
+  background: var(--ds-slate);
+}
+
+.staff-name-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--ds-charcoal);
+}
+
+.btn-switch-pin {
+  background: none;
+  border: none;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--ds-slate);
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.btn-switch-pin:hover {
+  color: var(--ds-navy);
+}
+
+/* ==========================================================================
+   02. Patient Profile Banner
+   ========================================================================== */
+.patient-banner {
+  background: var(--ds-surface);
+  border-bottom: 1px solid var(--ds-border);
+  padding: 20px 24px;
+}
+
+.patient-banner-inner {
+  max-width: 1440px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.patient-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.patient-identity-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.patient-avatar-box {
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
+  background: var(--ds-navy);
+  color: #FFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.patient-name-block h1 {
+  font-size: 1.45rem;
+  font-weight: 800;
+  color: var(--ds-navy);
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+.patient-meta-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 4px;
+  flex-wrap: wrap;
+}
+
+.patient-ref-tag {
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: #E2E8F0;
+  color: var(--ds-navy);
+}
+
+.meta-chip {
+  font-size: 0.8rem;
+  color: var(--ds-muted);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.chip-tag {
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 4px;
+}
+
+.chip-tag.new {
+  background: #DBEAFE;
+  color: #1E40AF;
+}
+
+.chip-tag.returning {
+  background: #DCFCE7;
+  color: #166534;
+}
+
+.chip-tag.ambiguous {
+  background: #FEF3C7;
+  color: #92400E;
+  border: 1px solid #FDE68A;
+}
+
+.alert-badge {
+  background: #FEE2E2;
+  color: #991B1B;
+  border: 1px solid #FECACA;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+
+.consultation-context-strip {
+  background: #F0FDF4;
+  border: 1px solid #BBF7D0;
+  border-radius: 8px;
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.context-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.85rem;
+  color: #166534;
+  font-weight: 600;
+}
+
+.context-pulse {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #16A34A;
+  box-shadow: 0 0 0 4px rgba(22, 163, 74, 0.2);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(0.95); opacity: 0.8; }
+  50% { transform: scale(1.1); opacity: 1; }
+  100% { transform: scale(0.95); opacity: 0.8; }
+}
+
+.btn-complete-visit {
+  background: #166534;
+  color: #FFF;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.btn-complete-visit:hover {
+  background: #14532D;
+}
+
+/* ==========================================================================
+   03. Clinical Navigation Tabs
+   ========================================================================== */
+.clinical-nav-tabs {
+  background: var(--ds-surface);
+  border-bottom: 1px solid var(--ds-border);
+  overflow-x: auto;
+}
+
+.clinical-tabs-inner {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: flex;
+  gap: 4px;
+}
+
+.tab-btn {
+  padding: 12px 18px;
+  border: none;
+  background: none;
+  font-family: var(--font-sans);
+  font-size: 0.86rem;
+  font-weight: 600;
+  color: var(--ds-muted);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.tab-btn:hover {
+  color: var(--ds-navy);
+}
+
+.tab-btn.active {
+  color: var(--ds-teal);
+  border-bottom-color: var(--ds-teal);
+  font-weight: 700;
+}
+
+/* ==========================================================================
+   04. Main Clinical Workspace Layout
+   ========================================================================== */
+.clinical-workspace-main {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 24px;
+  width: 100%;
+  flex: 1;
+}
+
+.clinical-panel {
+  display: none;
+}
+
+.clinical-panel.active {
+  display: block;
+}
+
+.card {
+  background: var(--ds-surface);
+  border: 1px solid var(--ds-border);
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--ds-border);
+}
+
+.card-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--ds-navy);
+}
+
+/* ==========================================================================
+   05. Odontogram & Dental Chart
+   ========================================================================== */
+.odontogram-section {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 24px;
+  align-items: start;
+}
+
+@media (max-width: 1100px) {
+  .odontogram-section {
+    grid-template-columns: 1fr;
+  }
+}
+
+.odontogram-chart-card {
+  background: var(--ds-surface);
+  border: 1px solid var(--ds-border);
+  border-radius: 10px;
+  padding: 24px;
+}
+
+.arch-container {
+  margin-bottom: 28px;
+}
+
+.arch-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--ds-muted);
+  letter-spacing: 0.05em;
+  margin-bottom: 12px;
+  padding-bottom: 6px;
+  border-bottom: 1px dashed var(--ds-border);
+}
+
+.arch-teeth-grid {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  padding: 6px 0;
+}
+
+.midline-divider {
+  width: 2px;
+  background: var(--ds-border-dark);
+  margin: 0 6px;
+  height: 60px;
+  align-self: center;
+}
+
+/* Individual Tooth Widget */
+.tooth-widget {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 6px;
+  border: 1px solid transparent;
+  transition: all 0.15s ease;
+  user-select: none;
+}
+
+.tooth-widget:hover {
+  background: #F1F5F9;
+  border-color: var(--ds-border-dark);
+}
+
+.tooth-widget.selected {
+  background: var(--ds-teal-subtle);
+  border-color: var(--ds-teal);
+}
+
+.tooth-num-badge {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--ds-navy);
+  margin-bottom: 4px;
+}
+
+/* Anatomical 5-Surface SVG Box */
+.tooth-svg-box {
+  width: 44px;
+  height: 44px;
+}
+
+.tooth-svg-box svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.tooth-surface {
+  fill: var(--clinic-healthy);
+  stroke: var(--clinic-healthy-border);
+  stroke-width: 1;
+  transition: fill 0.15s ease, stroke 0.15s ease;
+  cursor: pointer;
+}
+
+.tooth-surface:hover {
+  fill: #E2E8F0;
+}
+
+/* Finding Colors on Surfaces */
+.surface-caries {
+  fill: var(--clinic-caries) !important;
+  stroke: #991B1B !important;
+}
+
+.surface-restored {
+  fill: var(--clinic-restored) !important;
+  stroke: #0A4A46 !important;
+}
+
+.surface-rct {
+  fill: var(--clinic-rct) !important;
+  stroke: #5B21B6 !important;
+}
+
+.surface-crown {
+  fill: var(--clinic-crown) !important;
+  stroke: #92400E !important;
+}
+
+.surface-missing {
+  fill: var(--clinic-missing) !important;
+  stroke: #475569 !important;
+}
+
+.tooth-widget.is-missing .tooth-surface {
+  fill: #E2E8F0;
+  opacity: 0.5;
+}
+
+.tooth-widget.is-missing {
+  opacity: 0.5;
+  text-decoration: line-through;
+}
+
+/* Odontogram Legend */
+.odontogram-legend {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid var(--ds-border);
+}
+
+.legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--ds-charcoal);
+}
+
+.legend-swatch {
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+}
+
+.legend-swatch.caries { background: var(--clinic-caries); }
+.legend-swatch.restored { background: var(--clinic-restored); }
+.legend-swatch.rct { background: var(--clinic-rct); }
+.legend-swatch.crown { background: var(--clinic-crown); }
+.legend-swatch.missing { background: var(--clinic-missing); }
+.legend-swatch.healthy { background: #FFF; border: 1px solid var(--clinic-healthy-border); }
+
+/* ==========================================================================
+   06. Tooth Inspector Panel
+   ========================================================================== */
+.tooth-inspector-card {
+  background: var(--ds-surface);
+  border: 1px solid var(--ds-border);
+  border-radius: 10px;
+  padding: 20px;
+  position: sticky;
+  top: 80px;
+}
+
+.inspector-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.inspector-tooth-badge {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--ds-navy);
+}
+
+.surface-picker-row {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+  margin: 10px 0 16px;
+}
+
+.surface-btn {
+  padding: 6px 10px;
+  border: 1px solid var(--ds-border);
+  background: var(--ds-canvas);
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.surface-btn:hover {
+  border-color: var(--ds-teal);
+  color: var(--ds-teal);
+}
+
+.surface-btn.active {
+  background: var(--ds-teal);
+  color: #FFF;
+  border-color: var(--ds-teal);
+}
+
+.form-group {
+  margin-bottom: 14px;
+}
+
+.form-label {
+  display: block;
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: var(--ds-muted);
+  margin-bottom: 5px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.form-select, .form-input, .form-textarea {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid var(--ds-border);
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: 0.85rem;
+  background: #FFF;
+  color: var(--ds-charcoal);
+  transition: border-color 0.15s ease;
+}
+
+.form-select:focus, .form-input:focus, .form-textarea:focus {
+  outline: none;
+  border-color: var(--ds-teal);
+}
+
+.form-textarea {
+  resize: vertical;
+  min-height: 60px;
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: 6px;
+  background: var(--ds-teal);
+  color: #FFF;
+  font-weight: 700;
+  font-size: 0.85rem;
+  border: none;
+  cursor: pointer;
+  transition: background 0.15s ease;
+  width: 100%;
+}
+
+.btn-primary:hover {
+  background: var(--ds-teal-light);
+}
+
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--ds-navy);
+  font-weight: 600;
+  font-size: 0.82rem;
+  border: 1px solid var(--ds-border-dark);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  line-height: 1;
+  box-sizing: border-box;
+}
+
+.btn-outline:hover {
+  background: #F1F5F9;
+  border-color: var(--ds-navy);
+}
+
+.findings-list {
+  margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.finding-item-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 8px 10px;
+  background: #F8FAFC;
+  border: 1px solid var(--ds-border);
+  border-radius: 6px;
+  gap: 8px;
+}
+
+.finding-info {
+  font-size: 0.8rem;
+}
+
+.finding-tag {
+  font-weight: 700;
+  color: var(--ds-navy);
+}
+
+.finding-surface {
+  font-size: 0.72rem;
+  color: var(--ds-muted);
+}
+
+.btn-archive-finding {
+  background: none;
+  border: none;
+  color: var(--ds-muted);
+  cursor: pointer;
+  font-size: 0.75rem;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.btn-archive-finding:hover {
+  color: #DC2626;
+  background: #FEE2E2;
+}
+
+/* ==========================================================================
+   07. Clinical Notes Section
+   ========================================================================== */
+.notes-feed {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.clinical-note-card {
+  background: var(--ds-surface);
+  border: 1px solid var(--ds-border);
+  border-radius: 8px;
+  padding: 16px 20px;
+}
+
+.note-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #F1F5F9;
+}
+
+.note-type-badge {
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: #E2E8F0;
+  color: var(--ds-navy);
+}
+
+.note-author-meta {
+  font-size: 0.78rem;
+  color: var(--ds-muted);
+}
+
+.note-body {
+  font-size: 0.88rem;
+  line-height: 1.5;
+  color: var(--ds-charcoal);
+  white-space: pre-wrap;
+}
+
+.note-diag-box {
+  margin-top: 10px;
+  padding: 8px 12px;
+  background: #F8FAFC;
+  border-left: 3px solid var(--ds-teal);
+  font-size: 0.82rem;
+}
+
+.note-diag-label {
+  font-weight: 700;
+  color: var(--ds-teal);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+}
+
+/* ==========================================================================
+   08. Treatment Plans & Records
+   ========================================================================== */
+.treatment-split-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+@media (max-width: 960px) {
+  .treatment-split-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.treatment-item-card {
+  background: #FFF;
+  border: 1px solid var(--ds-border);
+  border-radius: 8px;
+  padding: 14px 16px;
+  margin-bottom: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.treatment-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.treatment-proc-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--ds-navy);
+}
+
+.treatment-status-select {
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  border: 1px solid var(--ds-border-dark);
+  background: #F8FAFC;
+  cursor: pointer;
+}
+
+/* ==========================================================================
+   09. Prescriptions & Printable Slip
+   ========================================================================== */
+.rx-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 12px;
+}
+
+.rx-table th, .rx-table td {
+  padding: 10px 12px;
+  text-align: left;
+  border-bottom: 1px solid var(--ds-border);
+  font-size: 0.85rem;
+}
+
+.rx-table th {
+  background: #F8FAFC;
+  font-weight: 700;
+  color: var(--ds-muted);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+}
+
+.rx-item-input-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr 2fr 40px;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+/* Printable Prescription Modal Slip */
+.prescription-slip {
+  background: #FFF;
+  padding: 32px;
+  border-radius: 8px;
+  border: 1px solid var(--ds-border);
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.slip-clinic-header {
+  text-align: center;
+  padding-bottom: 16px;
+  border-bottom: 2px solid var(--ds-navy);
+  margin-bottom: 20px;
+}
+
+.slip-clinic-title {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--ds-navy);
+}
+
+.slip-clinic-address {
+  font-size: 0.8rem;
+  color: var(--ds-muted);
+  margin-top: 4px;
+}
+
+.slip-meta-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 20px;
+  font-size: 0.85rem;
+}
+
+.rx-symbol {
+  font-size: 1.5rem;
+  font-family: serif;
+  font-weight: 700;
+  color: var(--ds-navy);
+  margin-bottom: 12px;
+}
+
+/* ==========================================================================
+   10. Clinical Timeline
+   ========================================================================== */
+.timeline-track {
+  position: relative;
+  padding-left: 28px;
+}
+
+.timeline-track::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 10px;
+  width: 2px;
+  background: var(--ds-border);
+}
+
+.timeline-event-item {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.timeline-event-item::before {
+  content: '';
+  position: absolute;
+  left: -28px;
+  top: 6px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--ds-teal);
+  border: 2px solid #FFF;
+}
+
+.timeline-event-card {
+  background: #FFF;
+  border: 1px solid var(--ds-border);
+  border-radius: 8px;
+  padding: 12px 16px;
+}
+
+.timeline-event-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+
+.timeline-event-title {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--ds-navy);
+}
+
+.timeline-event-time {
+  font-size: 0.75rem;
+  color: var(--ds-muted);
+}
+
+.timeline-event-desc {
+  font-size: 0.82rem;
+  color: var(--ds-charcoal);
+}
+
+/* ==========================================================================
+   11. Modal Dialogs & Overlays
+   ========================================================================== */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 44, 89, 0.4);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  z-index: 1000;
+}
+
+.modal-dialog-card {
+  background: #FFF;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 600px;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+  padding: 24px;
+  position: relative;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.modal-close-btn {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  background: none;
+  border: none;
+  font-size: 1.4rem;
+  cursor: pointer;
+  color: var(--ds-muted);
+}
+
+.modal-close-btn:hover {
+  color: var(--ds-charcoal);
+}
+
+/* ==========================================================================
+   Phase 5: Follow-ups & WhatsApp Communication Styling
+   ========================================================================== */
+
+.comm-audit-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+  margin-top: 12px;
+}
+
+.comm-audit-table th {
+  background: var(--ds-cream, #FAF8F5);
+  padding: 8px 12px;
+  text-align: left;
+  font-size: 0.72rem;
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--ds-navy);
+  border-bottom: 1.5px solid var(--ds-border);
+}
+
+.comm-audit-table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--ds-border);
+}
+
+.delivery-status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 7px;
+  border-radius: 9999px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.delivery-status-sent {
+  background: #EFF6FF;
+  color: #1E40AF;
+  border: 1px solid #BFDBFE;
+}
+
+.delivery-status-delivered {
+  background: #ECFDF5;
+  color: #047857;
+  border: 1px solid #A7F3D0;
+}
+
+.delivery-status-read {
+  background: #E0F2FE;
+  color: #0284C7;
+  border: 1px solid #BAE6FD;
+}
+
+.delivery-status-failed {
+  background: #FEF2F2;
+  color: #DC2626;
+  border: 1px solid #FECACA;
+}
+
+/* WhatsApp Message Preview Bubble for Clinical Workspace */
+.clinical-wa-preview {
+  background: #ECE5DD;
+  background-image: radial-gradient(#d3cbbe 1px, transparent 1px);
+  background-size: 16px 16px;
+  padding: 16px;
+  border-radius: 8px;
+  margin: 14px 0;
+  border: 1px solid #D8CFC4;
+}
+
+.clinical-wa-bubble {
+  background: #FFFFFF;
+  border-radius: 7.5px 7.5px 7.5px 0;
+  padding: 12px 14px;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+  font-size: 0.86rem;
+  line-height: 1.55;
+  color: #111B21;
+  max-width: 95%;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.clinical-wa-bubble-meta {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 4px;
+  font-size: 0.7rem;
+  color: #667781;
+  margin-top: 6px;
+}
+
+.btn-table-wa {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  height: 26px;
+  padding: 0 8px;
+  font-family: inherit;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #0E7048;
+  background: #EBFBF3;
+  border: 1px solid #A7F3D0;
+  border-radius: var(--radius-sm);
+  white-space: nowrap;
+  flex-shrink: 0;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  line-height: 1;
+}
+
+.btn-table-wa:hover {
+  background: #25D366;
+  color: #FFFFFF;
+  border-color: #25D366;
+}
+
+.btn-table-wa svg {
+  width: 12px;
+  height: 12px;
+  fill: currentColor;
+  flex-shrink: 0;
+}

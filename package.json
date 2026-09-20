@@ -1,0 +1,19 @@
+﻿{
+  "name": "dental-square-ranchi",
+  "version": "1.0.0",
+  "description": "Dental Square, Lalpur, Ranchi — Complete Dental Healthcare & Clinic Management System",
+  "main": "server/server.js",
+  "scripts": {
+    "start": "node server/server.js"
+  },
+  "keywords": [
+    "dental-square",
+    "clinic-management",
+    "appointment-booking",
+    "odontogram",
+    "healthcare",
+    "sqlite"
+  ],
+  "author": "Dental Square Ranchi",
+  "license": "ISC"
+}

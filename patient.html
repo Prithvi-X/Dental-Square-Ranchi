@@ -1,0 +1,1023 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dental Square — Patient Clinical Workspace</title>
+  <meta name="description" content="Dentist clinical workspace, interactive FDI odontogram, treatment planning, and longitudinal patient health records for Dental Square, Lalpur, Ranchi.">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="assets/images/favicon.png">
+
+  <!-- Typography Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="assets/css/clinical.css">
+</head>
+<body class="clinical-body">
+
+  <!-- ========================================================================
+       01. Top Operational & Clinical Header
+       ======================================================================== -->
+  <header class="clinical-header" role="banner">
+    <div class="clinical-header-inner">
+      <div class="clinic-brand-block">
+        <a href="dashboard.html" class="clinic-brand-wrap" aria-label="Return to Clinic Dashboard">
+          <img src="assets/images/logo.png" alt="Dental Square Logo" class="clinic-brand-logo">
+          <div class="clinic-brand-text">
+            <span class="clinic-brand-title">DENTAL SQUARE</span>
+            <span class="clinic-brand-subtitle mono">CLINICAL WORKSPACE &middot; LALPUR</span>
+          </div>
+        </a>
+      </div>
+
+      <div class="clinical-header-actions">
+        <!-- Quick Search -->
+        <button type="button" class="btn-clinic-dash-return" id="openSearchBtn" aria-label="Search patient records">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <span>Search (Ctrl+K)</span>
+        </button>
+
+        <!-- Authenticated Staff Badge -->
+        <div class="staff-session-pill" id="staffBadgeWrap">
+          <span class="staff-role-tag mono" id="staffRoleBadge">DENTIST</span>
+          <span class="staff-name-label" id="staffNameDisplay">Dr. Anuj Kumar</span>
+          <button type="button" class="btn-switch-pin" id="staffSwitchBtn" title="Switch Role PIN">Switch PIN</button>
+        </div>
+
+        <!-- Back to Dashboard -->
+        <a href="dashboard.html" class="btn-clinic-dash-return" title="Return to Clinic Operational Dashboard">
+          &larr; Clinic Dashboard
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ========================================================================
+       02. Patient Profile Banner
+       ======================================================================== -->
+  <section class="patient-banner" aria-label="Patient Profile Information">
+    <div class="patient-banner-inner">
+      <div class="patient-title-row">
+        <div class="patient-identity-left">
+          <div class="patient-avatar-box" id="patientAvatar">P</div>
+          <div class="patient-name-block">
+            <h1 id="patientName">Loading Patient...</h1>
+            <div class="patient-meta-row">
+              <span class="patient-ref-tag mono" id="patientRef">DSP-....</span>
+              <span class="meta-chip mono" id="patientAgeGender">-- YRS &middot; ---</span>
+              <span class="meta-chip mono" id="patientMobile">+91 ----------</span>
+              <span class="chip-tag new" id="patientTypeTag">PATIENT</span>
+              <span class="chip-tag ambiguous" id="ambiguousNotice" style="display: none;" title="Multiple patients share this phone number. Identity verified via full name.">Shared Contact Record</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="patient-banner-right" id="alertsWrap">
+          <button type="button" class="alert-badge" id="openAlertsModalBtn" title="Clinician Alerts">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+              <line x1="12" y1="9" x2="12" y2="13"></line>
+              <line x1="12" y1="17" x2="12.01" y2="17"></line>
+            </svg>
+            <span id="alertsTextDisplay">Clinician Alerts (None)</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Active Consultation Context Strip (Appears when active appointment is attached) -->
+      <div class="consultation-context-strip" id="consultationContextStrip" style="display: none;">
+        <div class="context-left">
+          <span class="context-pulse" aria-hidden="true"></span>
+          <span>Active Consultation:</span>
+          <span class="mono" id="contextApptRef">DS-XXXXXX</span>
+          <span>&middot;</span>
+          <span id="contextApptService">Dental Service</span>
+          <span>&middot;</span>
+          <span id="contextApptDoctor">Treating Specialist</span>
+        </div>
+        <div class="context-right">
+          <button type="button" class="btn-complete-visit" id="completeConsultationBtn">
+            Complete Consultation &rarr;
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       03. Clinical Navigation Tabs
+       ======================================================================== -->
+  <nav class="clinical-nav-tabs" aria-label="Patient clinical sections">
+    <div class="clinical-tabs-inner">
+      <button type="button" class="tab-btn active" id="tabOverview" data-target="panelOverview">Overview</button>
+      <button type="button" class="tab-btn" id="tabOdontogram" data-target="panelOdontogram">Odontogram &amp; Chart</button>
+      <button type="button" class="tab-btn" id="tabTreatment" data-target="panelTreatment">Treatment Plans &amp; Records</button>
+      <button type="button" class="tab-btn" id="tabNotes" data-target="panelNotes">Clinical Notes</button>
+      <button type="button" class="tab-btn" id="tabPrescriptions" data-target="panelPrescriptions">Prescriptions</button>
+      <button type="button" class="tab-btn" id="tabTimeline" data-target="panelTimeline">Clinical Timeline</button>
+      <button type="button" class="tab-btn" id="tabAppointments" data-target="panelAppointments">Appointments</button>
+      <button type="button" class="tab-btn" id="tabFollowUps" data-target="panelFollowUps">Follow-ups &amp; Comms</button>
+    </div>
+  </nav>
+
+  <!-- ========================================================================
+       04. Main Clinical Workspace
+       ======================================================================== -->
+  <main class="clinical-workspace-main" role="main">
+
+    <!-- PANEL 1: OVERVIEW -->
+    <section class="clinical-panel active" id="panelOverview">
+      <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 24px;">
+        <div>
+          <!-- Current Concern Card -->
+          <div class="card">
+            <div class="card-header">
+              <h2 class="card-title">Current Clinical Concern</h2>
+              <span class="chip-tag new mono" id="overviewStatusTag">ACTIVE VISIT</span>
+            </div>
+            <p style="font-size: 0.92rem; line-height: 1.6; color: var(--ds-charcoal);" id="overviewChiefConcern">
+              No active consultation linked. Select an appointment from the Appointments tab to document today's visit.
+            </p>
+          </div>
+
+          <!-- Active Treatment Plan Summary -->
+          <div class="card">
+            <div class="card-header">
+              <h2 class="card-title">Active Treatment Plans</h2>
+              <button type="button" class="btn-outline" id="jumpToTreatmentTabBtn" style="padding: 4px 10px; font-size: 0.78rem;">View All Plans &rarr;</button>
+            </div>
+            <div id="overviewPlansList">
+              <p style="color: var(--ds-muted); font-size: 0.85rem;">No active treatment plans currently scheduled.</p>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <!-- Quick Patient Summary -->
+          <div class="card">
+            <div class="card-header">
+              <h2 class="card-title">Clinical Profile Details</h2>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 10px; font-size: 0.85rem;">
+              <div>
+                <span class="form-label">Full Name:</span>
+                <span id="overviewFullName" style="font-weight: 600;">--</span>
+              </div>
+              <div>
+                <span class="form-label">Contact Number:</span>
+                <span id="overviewPhone" class="mono" style="font-weight: 600;">--</span>
+              </div>
+              <div>
+                <span class="form-label">Email:</span>
+                <span id="overviewEmail" class="mono">Not recorded</span>
+              </div>
+              <div>
+                <span class="form-label">Gender / DOB:</span>
+                <span id="overviewGenderDob">Not specified</span>
+              </div>
+              <div>
+                <span class="form-label">Clinician Alerts:</span>
+                <span id="overviewAlertsText" style="color: #991B1B; font-weight: 600;">None</span>
+              </div>
+              <div style="margin-top: 10px;">
+                <button type="button" class="btn-outline" id="openEditDemographicsBtn" style="width: 100%;">
+                  Edit Patient Demographics
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PANEL 2: ODONTOGRAM & DENTAL CHART -->
+    <section class="clinical-panel" id="panelOdontogram">
+      <div class="odontogram-section">
+        
+        <!-- Left: FDI 32-Tooth Interactive Chart -->
+        <div class="odontogram-chart-card">
+          <div class="card-header" style="margin-bottom: 20px;">
+            <div>
+              <h2 class="card-title">FDI Two-Digit Dental Odontogram (ISO 3950)</h2>
+              <p style="font-size: 0.78rem; color: var(--ds-muted); margin-top: 2px;">
+                Permanent Adult Dentition &middot; 5 Controlled Surfaces per tooth (Mesial, Distal, Occlusal, Buccal, Lingual)
+              </p>
+            </div>
+            <div style="font-size: 0.75rem; color: var(--ds-teal); font-weight: 700;" class="mono" id="selectedToothDisplay">
+              SELECT A TOOTH TO INSPECT
+            </div>
+          </div>
+
+          <!-- Upper Arch (Maxillary) -->
+          <div class="arch-container">
+            <div class="arch-header">
+              <span>MAXILLARY RIGHT (QUADRANT 1)</span>
+              <span>UPPER ARCH</span>
+              <span>MAXILLARY LEFT (QUADRANT 2)</span>
+            </div>
+            <div class="arch-teeth-grid" id="upperTeethGrid">
+              <!-- Rendered via JS: 18..11 | Midline | 21..28 -->
+            </div>
+          </div>
+
+          <!-- Lower Arch (Mandibular) -->
+          <div class="arch-container" style="margin-bottom: 0;">
+            <div class="arch-header">
+              <span>MANDIBULAR RIGHT (QUADRANT 4)</span>
+              <span>LOWER ARCH</span>
+              <span>MANDIBULAR LEFT (QUADRANT 3)</span>
+            </div>
+            <div class="arch-teeth-grid" id="lowerTeethGrid">
+              <!-- Rendered via JS: 48..41 | Midline | 31..38 -->
+            </div>
+          </div>
+
+          <!-- Odontogram Restrained Legend -->
+          <div class="odontogram-legend">
+            <span class="legend-item"><span class="legend-swatch caries"></span> Caries / Decay</span>
+            <span class="legend-item"><span class="legend-swatch restored"></span> Restored / Filling</span>
+            <span class="legend-item"><span class="legend-swatch rct"></span> Root Canal (RCT)</span>
+            <span class="legend-item"><span class="legend-swatch crown"></span> Crown / Prosthetic</span>
+            <span class="legend-item"><span class="legend-swatch missing"></span> Missing / Extracted</span>
+            <span class="legend-item"><span class="legend-swatch healthy"></span> Healthy / Unmarked</span>
+          </div>
+        </div>
+
+        <!-- Right: Tooth Inspector Panel -->
+        <aside class="tooth-inspector-card" id="toothInspectorCard">
+          <div class="inspector-title-row">
+            <div>
+              <span class="form-label">SELECTED TOOTH</span>
+              <div class="inspector-tooth-badge mono" id="inspectorToothNum">--</div>
+            </div>
+            <span class="chip-tag returning mono" id="inspectorQuadrantTag">QUADRANT</span>
+          </div>
+
+          <div id="inspectorToothName" style="font-size: 0.84rem; font-weight: 600; color: var(--ds-charcoal); margin-bottom: 12px;">
+            Click on any tooth in the arch to document findings.
+          </div>
+
+          <!-- Surface Selector -->
+          <div class="form-group">
+            <span class="form-label">TARGET SURFACE (CONTROLLED ENUM)</span>
+            <div class="surface-picker-row" id="surfacePicker">
+              <button type="button" class="surface-btn" data-surface="OCCLUSAL">Occlusal (O)</button>
+              <button type="button" class="surface-btn" data-surface="MESIAL">Mesial (M)</button>
+              <button type="button" class="surface-btn" data-surface="DISTAL">Distal (D)</button>
+              <button type="button" class="surface-btn" data-surface="BUCCAL">Buccal (B)</button>
+              <button type="button" class="surface-btn" data-surface="LINGUAL">Lingual (L)</button>
+              <button type="button" class="surface-btn active" data-surface="WHOLE_TOOTH">Whole Tooth</button>
+            </div>
+          </div>
+
+          <!-- Prototype Finding Taxonomy Selector -->
+          <div class="form-group">
+            <label for="findingTypeSelect" class="form-label">FINDING TYPE (PROTOTYPE TAXONOMY)</label>
+            <select id="findingTypeSelect" class="form-select mono">
+              <!-- Populated via taxonomy -->
+            </select>
+          </div>
+
+          <!-- Severity Selector -->
+          <div class="form-group">
+            <label for="findingSeveritySelect" class="form-label">SEVERITY / STAGE</label>
+            <select id="findingSeveritySelect" class="form-select mono">
+              <option value="">None / Unspecified</option>
+              <option value="MILD">Mild</option>
+              <option value="MODERATE">Moderate</option>
+              <option value="SEVERE">Severe</option>
+            </select>
+          </div>
+
+          <!-- Notes -->
+          <div class="form-group">
+            <label for="findingNotesInput" class="form-label">CLINICAL OBSERVATION NOTES</label>
+            <textarea id="findingNotesInput" class="form-textarea" placeholder="Dentist notes for this finding..."></textarea>
+          </div>
+
+          <!-- Save Action -->
+          <button type="button" class="btn-primary" id="saveFindingBtn">
+            Record Tooth Finding &rarr;
+          </button>
+          <div id="findingRoleNotice" style="display: none; font-size: 0.72rem; color: #991B1B; margin-top: 6px; text-align: center;">
+            Only licensed dentists are authorized to record clinical findings.
+          </div>
+
+          <!-- Active Findings on this Tooth -->
+          <div style="margin-top: 20px; border-top: 1px solid var(--ds-border); padding-top: 14px;">
+            <span class="form-label">RECORDED FINDINGS ON THIS TOOTH</span>
+            <div class="findings-list" id="toothFindingsList">
+              <div style="font-size: 0.8rem; color: var(--ds-muted);">No findings recorded on this tooth.</div>
+            </div>
+          </div>
+        </aside>
+
+      </div>
+    </section>
+
+    <!-- PANEL 3: TREATMENT PLANS & RECORDS -->
+    <section class="clinical-panel" id="panelTreatment">
+      <div class="treatment-split-grid">
+        
+        <!-- Left: Planned Treatments -->
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <h2 class="card-title">Treatment Planning (Planned)</h2>
+              <p style="font-size: 0.75rem; color: var(--ds-muted); margin-top: 2px;">
+                Procedures scheduled for future appointments &middot; Deterministic state machine
+              </p>
+            </div>
+            <button type="button" class="btn-outline" id="openAddPlanModalBtn">+ Add Planned Procedure</button>
+          </div>
+
+          <div id="treatmentPlansContainer">
+            <p style="color: var(--ds-muted); font-size: 0.85rem;">No active treatment plans recorded.</p>
+          </div>
+        </div>
+
+        <!-- Right: Performed Treatment Records -->
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <h2 class="card-title">Treatment Records (Performed)</h2>
+              <p style="font-size: 0.75rem; color: var(--ds-muted); margin-top: 2px;">
+                Explicitly executed procedures with materials &amp; tooth associations
+              </p>
+            </div>
+            <button type="button" class="btn-outline" id="openRecordTreatmentModalBtn">+ Record Performed Treatment</button>
+          </div>
+
+          <div id="treatmentRecordsContainer">
+            <p style="color: var(--ds-muted); font-size: 0.85rem;">No performed treatments recorded yet.</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- PANEL 4: CLINICAL NOTES -->
+    <section class="clinical-panel" id="panelNotes">
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <h2 class="card-title">Dentist Clinical Notes</h2>
+            <p style="font-size: 0.75rem; color: var(--ds-muted); margin-top: 2px;">
+              Chronological consultation, examination, and treatment documentation (Cross-dentist protected)
+            </p>
+          </div>
+          <button type="button" class="btn-primary" id="openAddNoteModalBtn" style="width: auto;">+ Author Clinical Note</button>
+        </div>
+
+        <div class="notes-feed" id="clinicalNotesFeed">
+          <p style="color: var(--ds-muted); font-size: 0.85rem;">No clinical notes recorded yet.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- PANEL 5: PRESCRIPTIONS -->
+    <section class="clinical-panel" id="panelPrescriptions">
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <h2 class="card-title">Issued Prescriptions (Immutable Records)</h2>
+            <p style="font-size: 0.75rem; color: var(--ds-muted); margin-top: 2px;">
+              Multi-item clinical prescriptions with structured dosage, frequency, and duration
+            </p>
+          </div>
+          <button type="button" class="btn-primary" id="openNewPrescriptionModalBtn" style="width: auto;">+ Issue New Prescription</button>
+        </div>
+
+        <div id="prescriptionsContainer">
+          <p style="color: var(--ds-muted); font-size: 0.85rem;">No prescriptions issued yet.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- PANEL 6: CLINICAL TIMELINE -->
+    <section class="clinical-panel" id="panelTimeline">
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <h2 class="card-title">Longitudinal Clinical Timeline</h2>
+            <p style="font-size: 0.75rem; color: var(--ds-muted); margin-top: 2px;">
+              Chronological unified history of appointments, notes, findings, treatments, and prescriptions
+            </p>
+          </div>
+        </div>
+
+        <div class="timeline-track" id="clinicalTimelineTrack">
+          <p style="color: var(--ds-muted); font-size: 0.85rem;">Loading timeline...</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- PANEL 7: APPOINTMENTS -->
+    <section class="clinical-panel" id="panelAppointments">
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title">Appointment Visit History</h2>
+        </div>
+
+        <table class="rx-table" id="appointmentsTable">
+          <thead>
+            <tr>
+              <th>Date &amp; Time</th>
+              <th>Reference</th>
+              <th>Service</th>
+              <th>Doctor</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="appointmentsTableBody">
+            <tr>
+              <td colspan="6" style="text-align: center; color: var(--ds-muted);">Loading visits...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- PANEL 8: FOLLOW-UPS & WHATSAPP COMMUNICATION (PHASE 5) -->
+    <section class="clinical-panel" id="panelFollowUps">
+      <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 24px; margin-bottom: 24px;">
+        
+        <!-- Left Column: Patient Communication Preferences & Quick Actions -->
+        <div>
+          <div class="card">
+            <div class="card-header">
+              <h2 class="card-title">Communication Preferences</h2>
+            </div>
+            <form id="patientCommPrefsForm">
+              <div class="form-group">
+                <label for="prefChannelSelect" class="form-label">PREFERRED CHANNEL</label>
+                <select id="prefChannelSelect" class="form-select mono">
+                  <option value="WHATSAPP">WhatsApp</option>
+                  <option value="PHONE">Phone Call</option>
+                  <option value="SMS">SMS</option>
+                  <option value="NONE">None / Opt-out</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label style="display: flex; align-items: center; gap: 8px; font-size: 0.85rem; font-weight: 600; cursor: pointer;">
+                  <input type="checkbox" id="prefWaOptInCheck" checked>
+                  WhatsApp Notifications Opt-In
+                </label>
+                <span style="font-size: 0.75rem; color: var(--ds-muted); display: block; margin-top: 2px;">
+                  Allows appointment reminders &amp; clinical recalls
+                </span>
+              </div>
+
+              <div class="form-group">
+                <label for="prefContactTimeSelect" class="form-label">PREFERRED CONTACT WINDOW</label>
+                <select id="prefContactTimeSelect" class="form-select mono">
+                  <option value="ANYTIME">Anytime (10 AM &ndash; 8 PM)</option>
+                  <option value="MORNING">Morning (10 AM &ndash; 1 PM)</option>
+                  <option value="EVENING">Evening (4 PM &ndash; 8 PM)</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="prefLangSelect" class="form-label">LANGUAGE PREFERENCE</label>
+                <select id="prefLangSelect" class="form-select mono">
+                  <option value="en">English</option>
+                  <option value="hi">Hindi</option>
+                </select>
+              </div>
+
+              <button type="submit" class="btn-primary" id="savePrefsBtn" style="width: 100%;">
+                Save Preferences &rarr;
+              </button>
+            </form>
+          </div>
+
+          <!-- Quick Send Card -->
+          <div class="card" style="margin-top: 16px;">
+            <div class="card-header">
+              <h2 class="card-title">Direct Communication</h2>
+            </div>
+            <p style="font-size: 0.82rem; color: var(--ds-muted); line-height: 1.5; margin-bottom: 14px;">
+              Send verified operational reminders or recall notices directly to the patient's WhatsApp.
+            </p>
+            <button type="button" class="btn-primary" id="openPatientWaModalBtn" style="width: 100%; background: #25D366; border-color: #25D366;">
+              💬 Send WhatsApp Message &rarr;
+            </button>
+          </div>
+        </div>
+
+        <!-- Right Column: Active Follow-ups & Recalls for this Patient -->
+        <div>
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <h2 class="card-title">Scheduled Follow-ups &amp; Recalls</h2>
+                <p style="font-size: 0.75rem; color: var(--ds-muted); margin-top: 2px;">
+                  Care continuity, post-operative checks, and preventative recall intervals
+                </p>
+              </div>
+              <button type="button" class="btn-primary" id="openScheduleFollowUpBtn" style="padding: 6px 12px; font-size: 0.8rem;">
+                + Schedule Follow-up
+              </button>
+            </div>
+
+            <table class="rx-table" id="patientFollowUpsTable">
+              <thead>
+                <tr>
+                  <th style="width: 100px;">Due Date</th>
+                  <th>Type &amp; Purpose</th>
+                  <th style="width: 90px;">Channel</th>
+                  <th style="width: 110px;">Status</th>
+                  <th style="width: 120px; text-align: right;">Action</th>
+                </tr>
+              </thead>
+              <tbody id="patientFollowUpsTbody">
+                <tr>
+                  <td colspan="5" style="text-align: center; color: var(--ds-muted);">Loading follow-ups...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Full-Width Card: Communication Audit Log & Receipts -->
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <h2 class="card-title">Communication Audit Log &amp; Delivery Receipts</h2>
+            <p style="font-size: 0.75rem; color: var(--ds-muted); margin-top: 2px;">
+              Immutable audit trail of messages sent, delivery statuses, and provider IDs
+            </p>
+          </div>
+        </div>
+
+        <table class="comm-audit-table" id="patientCommsTable">
+          <thead>
+            <tr>
+              <th style="width: 140px;">Timestamp</th>
+              <th>Template</th>
+              <th style="width: 80px;">Channel</th>
+              <th style="width: 120px;">Recipient</th>
+              <th style="width: 110px;">Delivery Status</th>
+              <th>Sent By / Provider ID</th>
+            </tr>
+          </thead>
+          <tbody id="patientCommsTbody">
+            <tr>
+              <td colspan="6" style="text-align: center; color: var(--ds-muted);">Loading communication audit history...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ========================================================================
+       05. Modals & Dialogs
+       ======================================================================== -->
+
+  <!-- Modal 1: Staff Login / PIN Authentication -->
+  <div class="modal-overlay" id="staffLoginModal" style="display: none;">
+    <div class="modal-dialog-card">
+      <button type="button" class="modal-close-btn" id="loginModalClose">&times;</button>
+      <span class="form-label" style="color: var(--ds-teal);">CLINICAL WORKSPACE ACCESS</span>
+      <h3 style="font-size: 1.25rem; font-weight: 800; color: var(--ds-navy); margin: 4px 0 10px;">Staff Authentication</h3>
+      <p style="font-size: 0.82rem; color: var(--ds-muted); margin-bottom: 16px;">
+        Enter your 4-digit security PIN to unlock dentist clinical authoring capabilities.
+      </p>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 16px;">
+        <button type="button" class="btn-outline preset-pin-btn" data-pin="2048" style="font-size: 0.78rem; text-align: left;">
+          <strong>Dr. Anuj Kumar</strong><br><span class="mono">PIN 2048</span>
+        </button>
+        <button type="button" class="btn-outline preset-pin-btn" data-pin="4096" style="font-size: 0.78rem; text-align: left;">
+          <strong>Dr. Kumari Vandana Chaudhury</strong><br><span class="mono">PIN 4096</span>
+        </button>
+        <button type="button" class="btn-outline preset-pin-btn" data-pin="1024" style="font-size: 0.78rem; text-align: left;">
+          <strong>Reception</strong><br><span class="mono">PIN 1024</span>
+        </button>
+        <button type="button" class="btn-outline preset-pin-btn" data-pin="8192" style="font-size: 0.78rem; text-align: left;">
+          <strong>Clinic Owner</strong><br><span class="mono">PIN 8192</span>
+        </button>
+      </div>
+
+      <form id="staffPinForm">
+        <div class="form-group">
+          <label for="pinInput" class="form-label">SECURITY PIN</label>
+          <input type="password" id="pinInput" class="form-input mono" placeholder="&bull; &bull; &bull; &bull;" maxlength="8" required>
+        </div>
+        <div id="loginErrorText" style="color: #991B1B; font-size: 0.78rem; margin-bottom: 10px; display: none;"></div>
+        <button type="submit" class="btn-primary">Authenticate Console Session &rarr;</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal 2: Author Clinical Note -->
+  <div class="modal-overlay" id="addNoteModal" style="display: none;">
+    <div class="modal-dialog-card">
+      <button type="button" class="modal-close-btn" id="addNoteClose">&times;</button>
+      <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--ds-navy); margin-bottom: 12px;">Author Clinical Note</h3>
+      
+      <form id="clinicalNoteForm">
+        <div class="form-group">
+          <label for="noteTypeSelect" class="form-label">NOTE TYPE</label>
+          <select id="noteTypeSelect" class="form-select mono">
+            <option value="CONSULTATION">Consultation Note</option>
+            <option value="EXAMINATION">Examination Note</option>
+            <option value="TREATMENT">Treatment Note</option>
+            <option value="GENERAL">General Clinical Note</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="noteChiefComplaintInput" class="form-label">CHIEF COMPLAINT / CONCERN</label>
+          <input type="text" id="noteChiefComplaintInput" class="form-input" placeholder="e.g. Sensitivity on lower right molar when drinking cold water">
+        </div>
+
+        <div class="form-group">
+          <label for="noteObservationsInput" class="form-label">CLINICAL EXAMINATION FINDINGS</label>
+          <textarea id="noteObservationsInput" class="form-textarea" placeholder="Visual, tactile, and percussion findings..."></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="noteDiagnosisInput" class="form-label">DENTIST-ENTERED DIAGNOSIS (MANUAL ENTRY ONLY)</label>
+          <input type="text" id="noteDiagnosisInput" class="form-input" placeholder="e.g. Reversible pulpitis, deep occlusal caries">
+        </div>
+
+        <div class="form-group">
+          <label for="noteAdviceInput" class="form-label">CLINICAL ADVICE &amp; INSTRUCTIONS</label>
+          <input type="text" id="noteAdviceInput" class="form-input" placeholder="e.g. Avoid hard food on right quadrant, maintain oral hygiene">
+        </div>
+
+        <div class="form-group">
+          <label for="noteContentInput" class="form-label">FULL CLINICAL NOTE DETAILS *</label>
+          <textarea id="noteContentInput" class="form-textarea" placeholder="Comprehensive clinical record..." required></textarea>
+        </div>
+
+        <button type="submit" class="btn-primary">Save &amp; Sign Clinical Note &rarr;</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal 3: Add Treatment Plan -->
+  <div class="modal-overlay" id="addPlanModal" style="display: none;">
+    <div class="modal-dialog-card">
+      <button type="button" class="modal-close-btn" id="addPlanClose">&times;</button>
+      <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--ds-navy); margin-bottom: 12px;">Create Treatment Plan Item</h3>
+      
+      <form id="treatmentPlanForm">
+        <div class="form-group">
+          <label for="planProcedureInput" class="form-label">PROCEDURE NAME *</label>
+          <input type="text" id="planProcedureInput" class="form-input" placeholder="e.g. Root Canal Treatment &amp; Crown" required>
+        </div>
+
+        <div class="form-group">
+          <label for="planToothInput" class="form-label">RELATED TOOTH (OPTIONAL FDI: 11-48)</label>
+          <input type="number" id="planToothInput" class="form-input mono" placeholder="e.g. 16" min="11" max="48">
+        </div>
+
+        <div class="form-group">
+          <label for="planPrioritySelect" class="form-label">PRIORITY</label>
+          <select id="planPrioritySelect" class="form-select mono">
+            <option value="NORMAL">Normal</option>
+            <option value="HIGH">High Priority</option>
+            <option value="URGENT">Urgent / Pain Relief</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="planNotesInput" class="form-label">CLINICAL NOTES</label>
+          <textarea id="planNotesInput" class="form-textarea" placeholder="Planned sequence, isolation notes, etc."></textarea>
+        </div>
+
+        <button type="submit" class="btn-primary">Save Treatment Plan &rarr;</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal 4: Record Performed Treatment -->
+  <div class="modal-overlay" id="recordTreatmentModal" style="display: none;">
+    <div class="modal-dialog-card">
+      <button type="button" class="modal-close-btn" id="recordTreatmentClose">&times;</button>
+      <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--ds-navy); margin-bottom: 12px;">Record Performed Treatment</h3>
+      
+      <form id="performedTreatmentForm">
+        <div class="form-group">
+          <label for="perfPlanSelect" class="form-label">LINK TO EXISTING PLANNED TREATMENT (OPTIONAL)</label>
+          <select id="perfPlanSelect" class="form-select mono">
+            <option value="">-- Direct Procedure (Not planned) --</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="perfProcedureInput" class="form-label">PROCEDURE EXECUTED *</label>
+          <input type="text" id="perfProcedureInput" class="form-input" placeholder="e.g. Composite Restoration (Class I)" required>
+        </div>
+
+        <div class="form-group">
+          <label for="perfToothInput" class="form-label">TOOTH TREATED (FDI: 11-48)</label>
+          <input type="number" id="perfToothInput" class="form-input mono" placeholder="e.g. 36" min="11" max="48">
+        </div>
+
+        <div class="form-group">
+          <label for="perfSurfacesInput" class="form-label">SURFACES TREATED</label>
+          <input type="text" id="perfSurfacesInput" class="form-input" placeholder="e.g. Occlusal, Mesial">
+        </div>
+
+        <div class="form-group">
+          <label for="perfMaterialsInput" class="form-label">MATERIALS / ANESTHETIC USED</label>
+          <input type="text" id="perfMaterialsInput" class="form-input" placeholder="e.g. 2% Lignocaine with 1:80000 Adrenaline, Filtek Z250 Composite">
+        </div>
+
+        <div class="form-group">
+          <label for="perfNotesInput" class="form-label">TREATMENT NOTES</label>
+          <textarea id="perfNotesInput" class="form-textarea" placeholder="Procedure notes, occlusion check, post-op instructions..."></textarea>
+        </div>
+
+        <button type="submit" class="btn-primary">Save Treatment Record &rarr;</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal 5: Issue New Prescription -->
+  <div class="modal-overlay" id="newPrescriptionModal" style="display: none;">
+    <div class="modal-dialog-card" style="max-width: 760px;">
+      <button type="button" class="modal-close-btn" id="newRxClose">&times;</button>
+      <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--ds-navy); margin-bottom: 4px;">Issue Clinical Prescription</h3>
+      <p style="font-size: 0.78rem; color: var(--ds-muted); margin-bottom: 16px;">
+        Structured prescription record &middot; Immutable upon issue
+      </p>
+      
+      <form id="prescriptionForm">
+        <div id="rxItemsContainer">
+          <!-- Multi-row items populated via JS -->
+        </div>
+
+        <button type="button" class="btn-outline" id="addRxItemRowBtn" style="margin-bottom: 14px; font-size: 0.78rem;">
+          + Add Medication Row
+        </button>
+
+        <div class="form-group">
+          <label for="rxNotesInput" class="form-label">GENERAL PRESCRIPTION NOTES / ADVICE</label>
+          <input type="text" id="rxNotesInput" class="form-input" placeholder="e.g. Drink plenty of water, complete the full antibiotic course.">
+        </div>
+
+        <button type="submit" class="btn-primary">Issue &amp; Sign Prescription &rarr;</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal 6: Printable Prescription Slip -->
+  <div class="modal-overlay" id="printPrescriptionModal" style="display: none;">
+    <div class="modal-dialog-card" style="max-width: 760px; padding: 0;">
+      <div style="padding: 16px 20px; background: #F8FAFC; border-bottom: 1px solid var(--ds-border); display: flex; justify-content: space-between; align-items: center;">
+        <span class="mono" style="font-weight: 700; font-size: 0.85rem; color: var(--ds-navy);" id="slipNumber">RX-PREVIEW</span>
+        <div>
+          <button type="button" class="btn-primary" onclick="window.print()" style="width: auto; padding: 4px 14px; font-size: 0.8rem; display: inline-flex;">Print Prescription</button>
+          <button type="button" class="modal-close-btn" id="printRxClose" style="position: static; margin-left: 12px; font-size: 1.2rem;">&times;</button>
+        </div>
+      </div>
+
+      <div class="prescription-slip" id="printableSlipArea">
+        <div class="slip-clinic-header">
+          <div class="slip-clinic-title">DENTAL SQUARE</div>
+          <div class="slip-clinic-address">
+            1st Floor, Amravati Complex, Circular Road, Lalpur, Ranchi, Jharkhand 834001<br>
+            Phone: +91 98869 82522 &middot; Specialized Dental Surgery &amp; Endodontics
+          </div>
+        </div>
+
+        <div class="slip-meta-grid">
+          <div>
+            <strong>Patient Name:</strong> <span id="slipPatientName">--</span><br>
+            <strong>Patient ID:</strong> <span class="mono" id="slipPatientRef">--</span><br>
+            <strong>Age / Gender:</strong> <span id="slipAgeGender">--</span>
+          </div>
+          <div style="text-align: right;">
+            <strong>Prescription Date:</strong> <span class="mono" id="slipDate">--</span><br>
+            <strong>Doctor:</strong> <span id="slipDoctorName">--</span><br>
+            <span style="font-size: 0.75rem; color: var(--ds-muted);" id="slipDoctorQual">BDS, MDS</span>
+          </div>
+        </div>
+
+        <div class="rx-symbol">&#8478;</div>
+
+        <table class="rx-table" style="margin-bottom: 24px;">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Medication</th>
+              <th>Dosage</th>
+              <th>Frequency</th>
+              <th>Duration</th>
+              <th>Instructions</th>
+            </tr>
+          </thead>
+          <tbody id="slipItemsBody">
+            <!-- Populated via JS -->
+          </tbody>
+        </table>
+
+        <div id="slipNotesBlock" style="margin-top: 14px; font-size: 0.85rem; padding: 10px; background: #F8FAFC; border-radius: 6px;">
+          <strong>Clinical Instructions:</strong> <span id="slipNotesText">--</span>
+        </div>
+
+        <div style="margin-top: 40px; display: flex; justify-content: space-between; align-items: flex-end;">
+          <div style="font-size: 0.72rem; color: var(--ds-muted);">
+            Generated via Dental Square Clinical Operations Console &middot; Lalpur, Ranchi
+          </div>
+          <div style="text-align: center; border-top: 1px solid #000; width: 200px; padding-top: 6px; font-size: 0.8rem; font-weight: 700;">
+            Doctor Signature
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 7: Edit Clinician Alerts -->
+  <div class="modal-overlay" id="editAlertsModal" style="display: none;">
+    <div class="modal-dialog-card">
+      <button type="button" class="modal-close-btn" id="editAlertsClose">&times;</button>
+      <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--ds-navy); margin-bottom: 4px;">Clinician Medical Alerts</h3>
+      <p style="font-size: 0.78rem; color: var(--ds-muted); margin-bottom: 14px;">
+        Dentist-entered health alerts (e.g. drug allergies, bleeding disorders, systemic conditions).
+      </p>
+
+      <form id="clinicianAlertsForm">
+        <div class="form-group">
+          <label for="alertsInput" class="form-label">CLINICIAN ALERTS</label>
+          <textarea id="alertsInput" class="form-textarea" placeholder="e.g. Penicillin allergy; Hypertensive under medication..."></textarea>
+        </div>
+        <button type="submit" class="btn-primary">Save Alerts &rarr;</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal 8: Edit Demographics -->
+  <div class="modal-overlay" id="editDemographicsModal" style="display: none;">
+    <div class="modal-dialog-card">
+      <button type="button" class="modal-close-btn" id="editDemoClose">&times;</button>
+      <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--ds-navy); margin-bottom: 12px;">Edit Patient Demographics</h3>
+
+      <form id="demographicsForm">
+        <div class="form-group">
+          <label for="demoFullName" class="form-label">FULL NAME *</label>
+          <input type="text" id="demoFullName" class="form-input" required>
+        </div>
+        <div class="form-group">
+          <label for="demoMobile" class="form-label">10-DIGIT MOBILE NUMBER *</label>
+          <input type="text" id="demoMobile" class="form-input mono" required>
+        </div>
+        <div class="form-group">
+          <label for="demoEmail" class="form-label">EMAIL ADDRESS</label>
+          <input type="email" id="demoEmail" class="form-input">
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+          <div class="form-group">
+            <label for="demoDob" class="form-label">DATE OF BIRTH</label>
+            <input type="date" id="demoDob" class="form-input mono">
+          </div>
+          <div class="form-group">
+            <label for="demoGender" class="form-label">GENDER</label>
+            <select id="demoGender" class="form-select mono">
+              <option value="">Not Specified</option>
+              <option value="MALE">Male</option>
+              <option value="FEMALE">Female</option>
+              <option value="OTHER">Other</option>
+            </select>
+          </div>
+        </div>
+        <button type="submit" class="btn-primary">Update Demographics &rarr;</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal 9: Schedule Follow-up / Recall (Phase 5) -->
+  <div class="modal-overlay" id="scheduleFollowUpModal" style="display: none;">
+    <div class="modal-dialog-card">
+      <button type="button" class="modal-close-btn" id="scheduleFuClose">&times;</button>
+      <span class="form-label" style="color: var(--ds-teal);">CARE CONTINUITY &amp; RECALL</span>
+      <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--ds-navy); margin: 4px 0 12px;">Schedule Patient Follow-up</h3>
+
+      <form id="scheduleFollowUpForm">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+          <div class="form-group">
+            <label for="pFuTypeSelect" class="form-label">FOLLOW-UP TYPE *</label>
+            <select id="pFuTypeSelect" class="form-select mono" required>
+              <option value="POST_EXTRACTION">Post-Extraction Check</option>
+              <option value="RCT_FOLLOWUP">RCT Follow-up</option>
+              <option value="IMPLANT_CHECK">Implant Check</option>
+              <option value="ORTHO_REVIEW">Ortho Review</option>
+              <option value="CLEANING_RECALL">Routine Cleaning</option>
+              <option value="RECALL_6M" selected>6-Month Recall</option>
+              <option value="ROUTINE">Routine Checkup</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="pFuDueDateInput" class="form-label">DUE DATE *</label>
+            <input type="date" id="pFuDueDateInput" class="form-input mono" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="pFuReasonInput" class="form-label">CLINICAL PURPOSE / REASON *</label>
+          <input type="text" id="pFuReasonInput" class="form-input" placeholder="e.g. 6-Month routine dental inspection and calculus prophylaxis" required>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+          <div class="form-group">
+            <label for="pFuChannelSelect" class="form-label">PREFERRED CHANNEL</label>
+            <select id="pFuChannelSelect" class="form-select mono">
+              <option value="WHATSAPP">WhatsApp</option>
+              <option value="PHONE">Phone Call</option>
+              <option value="SMS">SMS</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="pFuAssignedInput" class="form-label">ASSIGNED STAFF</label>
+            <input type="text" id="pFuAssignedInput" class="form-input" value="Dental Square Clinic">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="pFuNotesInput" class="form-label">CLINICAL INSTRUCTIONS / NOTES</label>
+          <textarea id="pFuNotesInput" class="form-textarea" rows="2" placeholder="Optional notes for reception/staff..."></textarea>
+        </div>
+
+        <div id="pFuErrorMsg" style="color: #DC2626; font-size: 0.78rem; margin-bottom: 8px; display: none;"></div>
+
+        <button type="submit" class="btn-primary" id="pFuSubmitBtn">Save Follow-up &rarr;</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal 10: Direct WhatsApp Communication (Phase 5) -->
+  <div class="modal-overlay" id="patientWhatsAppModal" style="display: none;">
+    <div class="modal-dialog-card" style="max-width: 580px;">
+      <button type="button" class="modal-close-btn" id="patientWaClose">&times;</button>
+      <span class="form-label" style="color: var(--ds-teal);">VERIFIED PATIENT COMMUNICATION</span>
+      <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--ds-navy); margin: 4px 0 10px;">Send WhatsApp Message</h3>
+
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
+        <span class="mono" style="font-size: 0.8rem; font-weight: 600;" id="pWaRecipientDisplay">Patient: Loading...</span>
+        <span id="pWaConsentDisplay" class="delivery-status-pill delivery-status-delivered">&check; WhatsApp Opted-In</span>
+      </div>
+
+      <div class="form-group">
+        <label for="pWaTemplateSelect" class="form-label">MESSAGE TEMPLATE</label>
+        <select id="pWaTemplateSelect" class="form-select mono">
+          <option value="tpl_appt_reminder">Appointment Reminder (T-24h)</option>
+          <option value="tpl_followup_reminder" selected>Clinical Follow-up Reminder</option>
+          <option value="tpl_recall_reminder">6-Month Preventative Recall</option>
+          <option value="tpl_appt_confirm">Appointment Confirmation</option>
+          <option value="tpl_appt_change">Appointment Reschedule / Cancellation</option>
+        </select>
+      </div>
+
+      <!-- WhatsApp Preview -->
+      <div class="clinical-wa-preview">
+        <div style="font-size: 0.72rem; color: var(--ds-teal); font-weight: 700; margin-bottom: 6px;">
+          &bull; Dental Square Ranchi (Official WhatsApp)
+        </div>
+        <div class="clinical-wa-bubble" id="pWaBubbleText">
+          Loading message preview...
+        </div>
+        <div class="clinical-wa-bubble-meta">
+          <span id="pWaBubbleTime">10:00 AM</span>
+          <span style="color: #53BDEB; font-weight: 700;">&check;&check;</span>
+        </div>
+      </div>
+
+      <div id="pWaOverrideWrap" style="display: none; margin-bottom: 12px; padding: 8px; background: #FEF2F2; border: 1px solid #FECACA; border-radius: 6px;">
+        <label style="font-size: 0.75rem; color: #991B1B; font-weight: 600; display: flex; align-items: center; gap: 6px;">
+          <input type="checkbox" id="pWaOverrideCheck">
+          Patient has opted out of WhatsApp. Override with clinical reason.
+        </label>
+      </div>
+
+      <div id="pWaErrorMsg" style="color: #DC2626; font-size: 0.78rem; margin-bottom: 10px; display: none;"></div>
+
+      <div style="display: flex; gap: 8px; justify-content: flex-end; margin-top: 16px;">
+        <button type="button" class="btn-outline" id="pWaCancelBtn">Cancel</button>
+        <button type="button" class="btn-primary" id="pWaSendBtn" style="background: #25D366; border-color: #25D366;">
+          Send via WhatsApp &rarr;
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="assets/js/clinical.js"></script>
+</body>
+</html>

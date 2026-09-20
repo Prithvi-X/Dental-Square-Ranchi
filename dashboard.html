@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dental Square — Clinic Dashboard &amp; Live Queue</title>
+  <meta name="description" content="Internal operational dashboard and live patient queue console for Dental Square, Lalpur, Ranchi.">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="assets/images/favicon.png">
+
+  <!-- Typography Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="assets/css/dashboard.css">
+</head>
+<body class="dashboard-body">
+
+  <!-- ========================================================================
+       01. Top Navigation & Operational Header
+       ======================================================================== -->
+  <header class="dash-site-header" role="banner">
+    <div class="dash-header-inner">
+      <div class="dash-brand-block">
+        <a href="dashboard.html" class="dash-brand-wrap" aria-label="Dental Square Dashboard Home">
+          <img src="assets/images/logo.png" alt="Dental Square Logo" class="dash-brand-logo">
+          <div class="dash-brand-text">
+            <span class="dash-brand-title">DENTAL SQUARE</span>
+            <span class="dash-brand-subtitle mono">CLINIC CONSOLE &middot; LALPUR</span>
+          </div>
+        </a>
+      </div>
+
+      <!-- Live Clock & Status Badge -->
+      <div class="dash-center-info">
+        <div class="dash-clock-row">
+          <span class="live-dot" aria-hidden="true"></span>
+          <span class="dash-time mono" id="dashLiveClock">--:--:--</span>
+          <span class="dash-date" id="dashDateHeader">Loading...</span>
+        </div>
+      </div>
+
+      <!-- Right Header Actions: Staff Session, Role Quick Switch, Search, Return -->
+      <div class="dash-header-actions">
+        <!-- Operational Search Trigger -->
+        <button type="button" class="dash-search-trigger-btn" id="openSearchBtn" aria-label="Search appointments">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <span>Search (Ctrl+K)</span>
+        </button>
+
+        <!-- Authenticated Staff Badge -->
+        <div class="dash-staff-badge-wrap" id="staffBadgeWrap">
+          <div class="dash-staff-pill">
+            <span class="staff-role-pill mono" id="staffRoleBadge">RECEPTION</span>
+            <span class="staff-name-text" id="staffNameDisplay">Dental Square Reception</span>
+          </div>
+          <button type="button" class="btn-staff-auth-switch" id="staffSwitchBtn" title="Switch Staff Session / Enter PIN">
+            Switch Staff PIN
+          </button>
+        </div>
+
+        <a href="patient.html" class="dash-btn-clinical" style="text-decoration: none; padding: 6px 12px; background: var(--ds-teal); color: #ffffff; border-radius: 6px; font-size: 13px; font-weight: 600; display: inline-flex; align-items: center; gap: 6px; transition: opacity 0.15s ease;" title="Open Clinical & Treatment Workspace">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+          <span>Clinical Chart &rarr;</span>
+        </a>
+
+        <a href="index.html" class="dash-btn-exit" title="Return to Public Patient Website">
+          &larr; Patient Site
+        </a>
+      </div>
+    </div>
+
+    <!-- Secondary Navigation Bar -->
+    <nav class="dash-subnav-bar" role="navigation" aria-label="Dashboard sections">
+      <div class="dash-subnav-inner">
+        <div class="dash-tab-buttons" role="tablist">
+          <button type="button" class="dash-tab-btn active" id="tabTodayFlow" role="tab" aria-selected="true" aria-controls="panelTodayFlow">
+            Today's Flow
+          </button>
+          <button type="button" class="dash-tab-btn" id="tabAppointments" role="tab" aria-selected="false" aria-controls="panelAppointments">
+            Appointments
+          </button>
+          <button type="button" class="dash-tab-btn" id="tabLiveQueue" role="tab" aria-selected="false" aria-controls="panelLiveQueue">
+            Live Queue
+          </button>
+          <button type="button" class="dash-tab-btn" id="tabFollowUps" role="tab" aria-selected="false" aria-controls="panelFollowUps">
+            Follow-ups &amp; Recalls
+            <span class="dash-tab-badge" id="badgeFollowUpCount" style="display: none;">0</span>
+          </button>
+        </div>
+
+        <!-- Date Stepper Controller -->
+        <div class="dash-date-nav-controls">
+          <button type="button" class="date-step-btn" id="prevDayBtn" aria-label="Previous day">&lsaquo;</button>
+          <button type="button" class="date-step-today-btn" id="jumpTodayBtn">Today</button>
+          <button type="button" class="date-step-btn" id="nextDayBtn" aria-label="Next day">&rsaquo;</button>
+          <input type="date" id="dashDateInput" class="dash-date-picker mono" aria-label="Select appointment date">
+          <button type="button" class="dash-refresh-btn" id="manualRefreshBtn" title="Refresh live operational data">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M23 4v6h-6"></path>
+              <path d="M1 20v-6h6"></path>
+              <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+            </svg>
+            <span class="refresh-indicator mono" id="pollStatusIndicator">Live</span>
+          </button>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <!-- ========================================================================
+       02. Compact Operational Metrics Strip (Zero Fluff, High Clarity)
+       ======================================================================== -->
+  <section class="dash-metrics-strip" aria-label="Today's Operational Metrics">
+    <div class="dash-metrics-inner">
+      <div class="metric-compact-item">
+        <span class="metric-k">Today's Appointments</span>
+        <strong class="metric-v mono" id="kpiTotal">0</strong>
+      </div>
+      <div class="metric-compact-divider"></div>
+
+      <div class="metric-compact-item">
+        <span class="metric-k">Arrived &amp; Waiting</span>
+        <strong class="metric-v highlight-teal mono" id="kpiWaiting">0</strong>
+      </div>
+      <div class="metric-compact-divider"></div>
+
+      <div class="metric-compact-item">
+        <span class="metric-k">In Consultation</span>
+        <strong class="metric-v highlight-blue mono" id="kpiInConsult">0</strong>
+      </div>
+      <div class="metric-compact-divider"></div>
+
+      <div class="metric-compact-item">
+        <span class="metric-k">Completed</span>
+        <strong class="metric-v mono" id="kpiCompleted">0</strong>
+      </div>
+      <div class="metric-compact-divider"></div>
+
+      <div class="metric-compact-item">
+        <span class="metric-k">No-Show / Cancelled</span>
+        <strong class="metric-v text-muted mono" id="kpiNoShow">0</strong>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       03. Main Operational Workspaces
+       ======================================================================== -->
+  <main class="dash-main-flow" id="dashMain">
+
+    <!-- Role Context Announcement Banner -->
+    <div class="dash-role-banner" id="roleContextBanner">
+      <div class="role-banner-left">
+        <span class="role-banner-tag mono" id="roleBadge">RECEPTION CONSOLE</span>
+        <span class="role-banner-desc" id="roleBannerText">Full operational view: check in arriving patients, manage doctor queues, and track consults.</span>
+      </div>
+      <div class="role-banner-right" id="demoSeedWrap">
+        <button type="button" class="btn-demo-seed mono" id="seedDemoDataBtn">
+          + Load Realistic Demo Day
+        </button>
+      </div>
+    </div>
+
+    <!-- Alert / Notification Toast Banner -->
+    <div class="dash-alert-bar" id="dashAlertBar" style="display: none;" role="alert">
+      <span id="dashAlertText">Notification message</span>
+      <button type="button" class="dash-alert-close" id="dashAlertClose">&times;</button>
+    </div>
+
+    <!-- ----------------------------------------------------------------------
+         TAB PANEL 1: TODAY'S FLOW (Central Operational Console)
+         ---------------------------------------------------------------------- -->
+    <section class="dash-tab-panel active" id="panelTodayFlow" role="tabpanel" aria-labelledby="tabTodayFlow">
+      <div class="flow-lanes-container">
+        
+        <!-- Doctor Lane 1: Dr. Anuj Kumar -->
+        <article class="doctor-flow-lane" id="laneDrAnuj">
+          <div class="doctor-lane-header">
+            <div class="lane-doctor-info">
+              <img src="assets/images/doctor-anuj.png" alt="Dr. Anuj Kumar" class="lane-doc-avatar" width="46" height="46">
+              <div>
+                <h2 class="lane-doc-name">Dr. Anuj Kumar</h2>
+                <div class="lane-doc-meta mono">Oral &amp; Maxillofacial Surgeon, Certified Implantologist &middot; 14 Yrs Exp</div>
+              </div>
+            </div>
+            <div class="lane-queue-badge mono" id="queueDepthAnuj">Queue: 0 Waiting</div>
+          </div>
+
+          <div class="lane-cards-grid">
+            <!-- NOW Card (In Consultation) -->
+            <div class="flow-stage-card stage-now">
+              <div class="stage-label-row">
+                <span class="stage-tag mono tag-now">NOW &middot; IN CONSULTATION</span>
+                <span class="stage-time-elapsed mono" id="nowElapsedAnuj">--</span>
+              </div>
+              <div class="stage-content" id="nowContentAnuj">
+                <div class="stage-empty-text">Ready for consultation with Dr. Anuj Kumar</div>
+              </div>
+              <div class="stage-footer" id="nowFooterAnuj"></div>
+            </div>
+
+            <!-- NEXT Card (Upcoming Patient) -->
+            <div class="flow-stage-card stage-next">
+              <div class="stage-label-row">
+                <span class="stage-tag mono tag-next">NEXT IN QUEUE</span>
+                <span class="stage-order mono" id="nextOrderAnuj">--</span>
+              </div>
+              <div class="stage-content" id="nextContentAnuj">
+                <div class="stage-empty-text">No patients waiting in queue</div>
+              </div>
+              <div class="stage-footer" id="nextFooterAnuj"></div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Doctor Lane 2: Dr. Kumari Vandana Chaudhury -->
+        <article class="doctor-flow-lane" id="laneDrVandana">
+          <div class="doctor-lane-header">
+            <div class="lane-doctor-info">
+              <img src="assets/images/doctor-vandana.png" alt="Dr. Kumari Vandana Chaudhury" class="lane-doc-avatar" width="46" height="46">
+              <div>
+                <h2 class="lane-doc-name">Dr. Kumari Vandana Chaudhury</h2>
+                <div class="lane-doc-meta mono">BDS-Dental, MDS-Endodontics &middot; Operatory 2</div>
+              </div>
+            </div>
+            <div class="lane-queue-badge mono" id="queueDepthVandana">Queue: 0 Waiting</div>
+          </div>
+
+          <div class="lane-cards-grid">
+            <!-- NOW Card (In Consultation) -->
+            <div class="flow-stage-card stage-now">
+              <div class="stage-label-row">
+                <span class="stage-tag mono tag-now">NOW &middot; IN CONSULTATION</span>
+                <span class="stage-time-elapsed mono" id="nowElapsedVandana">--</span>
+              </div>
+              <div class="stage-content" id="nowContentVandana">
+                <div class="stage-empty-text">Ready for consultation with Dr. Kumari Vandana Chaudhury</div>
+              </div>
+              <div class="stage-footer" id="nowFooterVandana"></div>
+            </div>
+
+            <!-- NEXT Card (Upcoming Patient) -->
+            <div class="flow-stage-card stage-next">
+              <div class="stage-label-row">
+                <span class="stage-tag mono tag-next">NEXT IN QUEUE</span>
+                <span class="stage-order mono" id="nextOrderVandana">--</span>
+              </div>
+              <div class="stage-content" id="nextContentVandana">
+                <div class="stage-empty-text">No patients waiting in queue</div>
+              </div>
+              <div class="stage-footer" id="nextFooterVandana"></div>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- ----------------------------------------------------------------------
+         TAB PANEL 2: APPOINTMENTS SCHEDULE
+         ---------------------------------------------------------------------- -->
+    <section class="dash-tab-panel" id="panelAppointments" role="tabpanel" aria-labelledby="tabAppointments">
+      <div class="appointments-control-bar">
+        <div class="appt-filters-row">
+          <div class="filter-field">
+            <label for="filterDoctor" class="filter-label mono">DOCTOR:</label>
+            <select id="filterDoctor" class="dash-select">
+              <option value="all">All Specialists</option>
+              <option value="doc_anuj_kumar">Dr. Anuj Kumar</option>
+              <option value="doc_vandana_choudhary">Dr. Kumari Vandana Chaudhury</option>
+            </select>
+          </div>
+
+          <div class="filter-field">
+            <label for="filterStatus" class="filter-label mono">STATUS:</label>
+            <select id="filterStatus" class="dash-select">
+              <option value="ALL">All Statuses</option>
+              <option value="CONFIRMED">Scheduled / Not Arrived</option>
+              <option value="WAITING">Arrived / Waiting</option>
+              <option value="IN_CONSULTATION">In Consultation</option>
+              <option value="COMPLETED">Completed</option>
+              <option value="NO_SHOW">No-Show</option>
+              <option value="CANCELLED">Cancelled</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="appt-count-text mono" id="apptFilteredCount">
+          Showing 0 appointments
+        </div>
+      </div>
+
+      <!-- Appointments List Table -->
+      <div class="dash-table-container">
+        <table class="dash-table" id="appointmentsTable">
+          <thead>
+            <tr>
+              <th style="width: 90px;">Time</th>
+              <th style="width: 80px;">Token</th>
+              <th>Patient</th>
+              <th>Service</th>
+              <th>Specialist</th>
+              <th style="width: 140px;">Status</th>
+              <th class="col-action" style="text-align: right;">Action</th>
+            </tr>
+          </thead>
+          <tbody id="appointmentsTbody">
+            <tr>
+              <td colspan="7" class="table-loading-cell">Loading schedule...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ----------------------------------------------------------------------
+         TAB PANEL 3: LIVE QUEUE
+         ---------------------------------------------------------------------- -->
+    <section class="dash-tab-panel" id="panelLiveQueue" role="tabpanel" aria-labelledby="tabLiveQueue">
+      <div class="queue-board-wrapper">
+        <div class="queue-control-strip">
+          <span class="mono" style="font-size: 12px; font-weight: 700; color: var(--ds-navy); text-transform: uppercase;">
+            Clinic Priority Queue &middot; Ordered by Arrival &amp; Token
+          </span>
+          <div class="queue-filter-tabs">
+            <button type="button" class="q-filter-btn active" data-q-doc="all">All Doctors</button>
+            <button type="button" class="q-filter-btn" data-q-doc="doc_anuj_kumar">Dr. Anuj Kumar</button>
+            <button type="button" class="q-filter-btn" data-q-doc="doc_vandana_choudhary">Dr. Kumari Vandana Chaudhury</button>
+          </div>
+        </div>
+
+        <div class="queue-list-container" id="queueListContainer">
+          <div class="queue-empty-state">Loading live queue...</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ----------------------------------------------------------------------
+         TAB PANEL 4: FOLLOW-UPS & RECALLS (PHASE 5)
+         ---------------------------------------------------------------------- -->
+    <section class="dash-tab-panel" id="panelFollowUps" role="tabpanel" aria-labelledby="tabFollowUps" style="display: none;">
+      <div class="followup-board-wrapper">
+        <!-- Operational Filter and Action Strip -->
+        <div class="followup-control-strip">
+          <div class="followup-filters">
+            <div class="filter-group">
+              <label for="filterFollowUpStatus" class="filter-label mono">STATUS</label>
+              <select id="filterFollowUpStatus" class="dash-select">
+                <option value="due_overdue" selected>Due &amp; Overdue</option>
+                <option value="all">All Follow-ups</option>
+                <option value="PENDING">Pending</option>
+                <option value="DUE">Due Today</option>
+                <option value="CONTACTED">Contacted</option>
+                <option value="SCHEDULED">Scheduled</option>
+                <option value="COMPLETED">Completed</option>
+                <option value="SKIPPED">Skipped</option>
+              </select>
+            </div>
+            <div class="filter-group">
+              <label for="filterFollowUpType" class="filter-label mono">TYPE</label>
+              <select id="filterFollowUpType" class="dash-select">
+                <option value="all">All Types</option>
+                <option value="POST_EXTRACTION">Post-Extraction Check</option>
+                <option value="RCT_FOLLOWUP">RCT Follow-up</option>
+                <option value="IMPLANT_CHECK">Implant Check</option>
+                <option value="ORTHO_REVIEW">Ortho Review</option>
+                <option value="CLEANING_RECALL">Routine Cleaning</option>
+                <option value="RECALL_6M">6-Month Recall</option>
+                <option value="ROUTINE">Routine Follow-up</option>
+              </select>
+            </div>
+            <button type="button" class="btn btn-secondary-sm" id="btnRunScheduler" title="Run background communication queue worker">
+              ⚡ Process Due Queue
+            </button>
+          </div>
+          <div class="followup-actions">
+            <span class="mono" style="font-size: 12px; color: var(--ds-text-secondary);" id="followUpCountLabel">0 follow-ups</span>
+            <button type="button" class="btn btn-teal-sm" id="btnNewFollowUp">
+              + New Follow-up
+            </button>
+          </div>
+        </div>
+
+        <!-- Follow-ups KPI Mini-Strip -->
+        <div class="followup-kpi-strip">
+          <div class="fu-kpi-card danger">
+            <span class="fu-kpi-num mono" id="fuKpiOverdue">0</span>
+            <span class="fu-kpi-label">Overdue</span>
+          </div>
+          <div class="fu-kpi-card warning">
+            <span class="fu-kpi-num mono" id="fuKpiDueToday">0</span>
+            <span class="fu-kpi-label">Due Today</span>
+          </div>
+          <div class="fu-kpi-card info">
+            <span class="fu-kpi-num mono" id="fuKpiContacted">0</span>
+            <span class="fu-kpi-label">Contacted</span>
+          </div>
+          <div class="fu-kpi-card success">
+            <span class="fu-kpi-num mono" id="fuKpiCompleted">0</span>
+            <span class="fu-kpi-label">Completed</span>
+          </div>
+        </div>
+
+        <!-- Follow-ups Table -->
+        <div class="dash-table-wrapper" style="margin-top: 16px;">
+          <table class="dash-table" aria-label="Patient Follow-ups & Recalls">
+            <thead>
+              <tr>
+                <th style="width: 110px;">Due Date</th>
+                <th>Patient</th>
+                <th>Type &amp; Reason</th>
+                <th style="width: 100px;">Channel</th>
+                <th style="width: 120px;">Status</th>
+                <th>Assigned To</th>
+                <th style="width: 220px; text-align: right;">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="followUpsTbody">
+              <tr>
+                <td colspan="7" class="table-loading-cell">Loading follow-ups...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ========================================================================
+       04. Operational Modals & Overlays
+       ======================================================================== -->
+
+  <!-- Check-In Confirmation & Token Dialog -->
+  <div class="dash-modal-overlay" id="checkInModalOverlay" aria-hidden="true">
+    <div class="dash-modal-card" role="dialog" aria-labelledby="checkInModalTitle" aria-modal="true">
+      <button type="button" class="modal-close-x" id="checkInModalClose" aria-label="Close dialog">&times;</button>
+      
+      <span class="eyebrow-mono" style="color: var(--ds-teal);">PATIENT ARRIVAL</span>
+      <h3 id="checkInModalTitle" class="modal-title">Confirm Patient Check-In</h3>
+      <p class="modal-desc" id="checkInModalDesc">
+        Generate the next sequential clinic token and place the patient in the queue.
+      </p>
+
+      <div class="checkin-summary-box">
+        <div class="checkin-row">
+          <span class="checkin-k">Patient:</span>
+          <strong class="checkin-v" id="checkInPatientName">--</strong>
+        </div>
+        <div class="checkin-row">
+          <span class="checkin-k">Specialist:</span>
+          <span class="checkin-v" id="checkInDoctorName">--</span>
+        </div>
+        <div class="checkin-row">
+          <span class="checkin-k">Service:</span>
+          <span class="checkin-v" id="checkInServiceName">--</span>
+        </div>
+        <div class="checkin-row">
+          <span class="checkin-k">Reference:</span>
+          <span class="checkin-v mono" id="checkInRefCode">--</span>
+        </div>
+      </div>
+
+      <div class="modal-action-row">
+        <button type="button" class="btn btn-secondary-sm" id="checkInCancelBtn">Cancel</button>
+        <button type="button" class="btn btn-teal" id="checkInConfirmBtn">
+          Confirm Check-In &amp; Assign Token &rarr;
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Search Modal -->
+  <div class="dash-modal-overlay" id="searchModalOverlay" aria-hidden="true">
+    <div class="dash-modal-card search-modal-card" role="dialog" aria-labelledby="searchModalTitle" aria-modal="true">
+      <button type="button" class="modal-close-x" id="searchModalClose" aria-label="Close search">&times;</button>
+      
+      <div class="search-input-wrapper">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <input type="text" id="dashSearchInput" class="dash-search-box" placeholder="Search patient name, phone number, or DS-XXXXXX..." autocomplete="off">
+      </div>
+
+      <div class="search-results-box" id="searchResultsBox">
+        <div class="search-hint-text">Type at least 2 characters to search clinic records...</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WhatsApp Message Preview & Dispatch Modal (Phase 5) -->
+  <div class="dash-modal-overlay" id="whatsappModalOverlay" aria-hidden="true" style="display: none;">
+    <div class="dash-modal-card whatsapp-modal-card" role="dialog" aria-labelledby="whatsappModalTitle" aria-modal="true">
+      <button type="button" class="modal-close-x" id="whatsappModalClose" aria-label="Close dialog">&times;</button>
+      
+      <span class="eyebrow-mono" style="color: var(--ds-teal);">VERIFIED PATIENT COMMUNICATION</span>
+      <h3 id="whatsappModalTitle" class="modal-title">Send WhatsApp Notification</h3>
+      
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 10px; margin-bottom: 14px;">
+        <div id="waRecipientInfo" class="mono" style="font-size: 13px; font-weight: 600; color: var(--ds-navy);">
+          Patient: Loading...
+        </div>
+        <div id="waConsentStatus" class="whatsapp-optin-status opted-in">
+          &check; WhatsApp Opted-In
+        </div>
+      </div>
+
+      <div style="margin-bottom: 14px;">
+        <label for="waTemplateSelect" class="filter-label mono" style="margin-bottom: 6px;">MESSAGE TEMPLATE</label>
+        <select id="waTemplateSelect" class="dash-select" style="width: 100%;">
+          <option value="tpl_appt_confirm">Appointment Confirmation</option>
+          <option value="tpl_appt_reminder">Appointment Reminder (T-24h)</option>
+          <option value="tpl_followup_reminder">Clinical Follow-up Reminder</option>
+          <option value="tpl_recall_reminder">6-Month Preventative Recall</option>
+          <option value="tpl_appt_change">Appointment Reschedule / Notice</option>
+        </select>
+      </div>
+
+      <!-- Live Interactive WhatsApp Preview -->
+      <div class="whatsapp-preview-container">
+        <div class="whatsapp-bubble-header">
+          <span>&bull; Dental Square Ranchi (Official WhatsApp)</span>
+          <span class="mono">CONFIDENTIAL</span>
+        </div>
+        <div class="whatsapp-bubble" id="waBubbleContent">
+          Loading message preview...
+        </div>
+        <div class="whatsapp-bubble-meta">
+          <span id="waPreviewTime">10:00 AM</span>
+          <span class="whatsapp-checks">&check;&check;</span>
+        </div>
+      </div>
+
+      <!-- Opt-out override notice if needed -->
+      <div id="waOverrideOptOutWrap" style="display: none; margin-top: 12px; padding: 10px; background: #FEF2F2; border: 1px solid #FECACA; border-radius: 6px;">
+        <label style="display: flex; align-items: center; gap: 8px; font-size: 12px; color: #991B1B; font-weight: 600;">
+          <input type="checkbox" id="waOverrideOptOutCheck">
+          Patient has opted out of WhatsApp. Override with documented clinical necessity.
+        </label>
+      </div>
+
+      <div id="waErrorMsg" class="login-error-msg mono" style="display: none; margin-top: 10px;"></div>
+
+      <div class="modal-action-row" style="margin-top: 20px;">
+        <button type="button" class="btn btn-secondary-sm" id="whatsappCancelBtn">Cancel</button>
+        <button type="button" class="btn btn-teal" id="waSendBtn" style="background: #25D366; border-color: #25D366;">
+          Send via WhatsApp &rarr;
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Create Follow-up Modal (Phase 5) -->
+  <div class="dash-modal-overlay" id="createFuModalOverlay" aria-hidden="true" style="display: none;">
+    <div class="dash-modal-card" role="dialog" aria-labelledby="createFuModalTitle" aria-modal="true" style="width: 540px;">
+      <button type="button" class="modal-close-x" id="createFuModalClose" aria-label="Close dialog">&times;</button>
+      
+      <span class="eyebrow-mono" style="color: var(--ds-teal);">CLINICAL CARE CONTINUITY</span>
+      <h3 id="createFuModalTitle" class="modal-title">Schedule Patient Follow-up</h3>
+      
+      <form id="createFuForm" style="margin-top: 16px; display: flex; flex-direction: column; gap: 14px;">
+        <div>
+          <label for="fuPatientSelect" class="filter-label mono">PATIENT</label>
+          <select id="fuPatientSelect" class="dash-select" style="width: 100%;" required>
+            <option value="">Select Patient...</option>
+          </select>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+          <div>
+            <label for="fuTypeSelect" class="filter-label mono">FOLLOW-UP TYPE</label>
+            <select id="fuTypeSelect" class="dash-select" style="width: 100%;" required>
+              <option value="POST_EXTRACTION">Post-Extraction Check</option>
+              <option value="RCT_FOLLOWUP">RCT Follow-up</option>
+              <option value="IMPLANT_CHECK">Implant Check</option>
+              <option value="ORTHO_REVIEW">Ortho Review</option>
+              <option value="CLEANING_RECALL">Routine Cleaning</option>
+              <option value="RECALL_6M">6-Month Recall</option>
+              <option value="ROUTINE">Routine Follow-up</option>
+            </select>
+          </div>
+          <div>
+            <label for="fuDueDateInput" class="filter-label mono">DUE DATE</label>
+            <input type="date" id="fuDueDateInput" class="dash-select mono" style="width: 100%;" required>
+          </div>
+        </div>
+
+        <div>
+          <label for="fuReasonInput" class="filter-label mono">CLINICAL REASON / PURPOSE</label>
+          <input type="text" id="fuReasonInput" class="dash-search-box" placeholder="e.g. Suture removal & healing inspection" required>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+          <div>
+            <label for="fuChannelSelect" class="filter-label mono">PREFERRED CHANNEL</label>
+            <select id="fuChannelSelect" class="dash-select" style="width: 100%;">
+              <option value="WHATSAPP">WhatsApp</option>
+              <option value="PHONE">Phone Call</option>
+              <option value="SMS">SMS</option>
+            </select>
+          </div>
+          <div>
+            <label for="fuAssignedInput" class="filter-label mono">ASSIGNED TO</label>
+            <input type="text" id="fuAssignedInput" class="dash-search-box" value="Dental Square Reception">
+          </div>
+        </div>
+
+        <div>
+          <label for="fuNotesInput" class="filter-label mono">INTERNAL INSTRUCTIONS / NOTES</label>
+          <textarea id="fuNotesInput" class="dash-search-box" rows="2" placeholder="Optional notes for clinic staff..."></textarea>
+        </div>
+
+        <div id="fuErrorMsg" class="login-error-msg mono" style="display: none;"></div>
+
+        <div class="modal-action-row" style="margin-top: 10px;">
+          <button type="button" class="btn btn-secondary-sm" id="createFuCancelBtn">Cancel</button>
+          <button type="submit" class="btn btn-teal" id="createFuSubmitBtn">Save Follow-up &rarr;</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Staff Login & PIN Authentication Modal -->
+  <div class="dash-modal-overlay" id="loginModalOverlay" aria-hidden="true" style="display: none;">
+    <div class="dash-modal-card staff-login-card" role="dialog" aria-labelledby="loginModalTitle" aria-modal="true">
+      <span class="eyebrow-mono" style="color: var(--ds-teal);">INTERNAL CLINICAL OPERATIONS</span>
+      <h3 id="loginModalTitle" class="modal-title">Staff Authentication</h3>
+      <p class="modal-desc">
+        Select your staff role or enter your 4-digit clinic security PIN to access the live operations console.
+      </p>
+
+      <div class="quick-role-presets">
+        <button type="button" class="preset-role-btn" data-pin="1024">
+          <span class="preset-role-title">Reception</span>
+          <span class="preset-role-pin mono">PIN 1024</span>
+        </button>
+        <button type="button" class="preset-role-btn" data-pin="2048">
+          <span class="preset-role-title">Dr. Anuj Kumar</span>
+          <span class="preset-role-pin mono">PIN 2048</span>
+        </button>
+        <button type="button" class="preset-role-btn" data-pin="4096">
+          <span class="preset-role-title">Dr. Kumari Vandana Chaudhury</span>
+          <span class="preset-role-pin mono">PIN 4096</span>
+        </button>
+        <button type="button" class="preset-role-btn" data-pin="8192">
+          <span class="preset-role-title">Clinic Owner</span>
+          <span class="preset-role-pin mono">PIN 8192</span>
+        </button>
+      </div>
+
+      <form id="staffLoginForm" class="staff-login-form">
+        <div class="login-field-wrap">
+          <label for="staffPinInput" class="login-label mono">SECURITY PIN</label>
+          <input type="password" id="staffPinInput" class="dash-pin-input mono" placeholder="&bull; &bull; &bull; &bull;" maxlength="8" autocomplete="off" required>
+        </div>
+        <div id="loginErrorMsg" class="login-error-msg mono" style="display: none;"></div>
+        <div class="modal-action-row" style="margin-top: 18px;">
+          <button type="submit" class="btn btn-teal" id="loginSubmitBtn" style="width: 100%; justify-content: center;">
+            Authenticate Console Session &rarr;
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="assets/js/dashboard.js"></script>
+</body>
+</html>
